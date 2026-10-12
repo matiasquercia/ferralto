@@ -1,10 +1,18 @@
 ---
+import BackLink from './BackLink.astro';
 import { SITE } from '@/lib/site';
 interface Props {
   items: { name: string; href: string }[];
 }
 const { items } = Astro.props;
 const all = [{ name: 'Inicio', href: '/' }, ...items];
+const parent = all[all.length - 2];
+const backLabel =
+  parent.href === '/productos'
+    ? 'Volver al catálogo'
+    : parent.href === '/'
+      ? 'Volver al inicio'
+      : `Volver a ${parent.name}`;
 const ld = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
@@ -17,20 +25,7 @@ const ld = {
 };
 ---
 
-<nav aria-label="Migas de pan" class="text-sm text-steel">
-  <ol class="flex flex-wrap items-center gap-1">
-    {all.map((it, i) => (
-      <li class="flex items-center gap-1">
-        {i > 0 && <span aria-hidden="true">/</span>}
-        {i === all.length - 1 ? (
-          <span class="text-ink">{it.name}</span>
-        ) : (
-          <a href={it.href} class="hover:text-brand-700">
-            {it.name}
-          </a>
-        )}
-      </li>
-    ))}
-  </ol>
+<nav aria-label="Migas de pan">
+  <BackLink href={parent.href} label={backLabel} />
 </nav>
 <script type="application/ld+json" set:html={JSON.stringify(ld)} />

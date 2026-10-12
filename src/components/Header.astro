@@ -2,7 +2,6 @@
 import CartButton from './CartButton';
 import { DELIVERY_PRICES } from '@/lib/delivery';
 import { formatPrice } from '@/lib/format';
-import { whatsappContactUrl } from '@/lib/whatsapp';
 
 const path = Astro.url.pathname;
 const nav = [
@@ -18,8 +17,7 @@ const nav = [
   },
   {
     label: 'Contacto',
-    href: whatsappContactUrl(),
-    external: true,
+    href: '/#asesoramiento',
     current: false,
   },
 ];
@@ -97,6 +95,12 @@ const nav = [
     sheet.addEventListener('toggle', () => {
       place();
       document.documentElement.classList.toggle('nav-open', sheet.open);
+    });
+    sheet.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        sheet.open = false;
+        document.documentElement.classList.remove('nav-open');
+      });
     });
     addEventListener('resize', place);
     addEventListener('scroll', () => {

@@ -74,6 +74,7 @@ const metaPrice = product.price !== null ? ` ${formatPrice(product.price)}.` : '
   >
     <Breadcrumbs
       items={[
+        { name: 'Productos', href: '/productos' },
         { name: category.name, href: `/categoria/${category.slug}` },
         { name: product.name, href: `/productos/${product.slug}` },
       ]}

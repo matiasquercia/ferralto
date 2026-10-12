@@ -78,7 +78,7 @@ button:not(.btn-primary):not(.btn-dark):not(.btn-whatsapp):not(.pressable):activ
 summary:active {
   background-color: #f5f5f4;
 }
-a:not(.btn-primary):not(.btn-dark):not(.btn-whatsapp):not(.whatsapp-float):not(.category-card):not(.benefit-link):not(.nav-panel a):active {
+a:not(.btn-primary):not(.btn-dark):not(.btn-whatsapp):not(.whatsapp-float):not(.category-card):not(.benefit-link):not(.nav-panel a):not(.back-link):active {
   opacity: 0.72;
 }
 input,
@@ -500,6 +500,7 @@ summary {
   padding: 3.5rem 0 4rem;
   background: #171918;
   color: #f7f4ee;
+  scroll-margin-top: 4.75rem;
 }
 .home-close .eyebrow {
   color: #f9bf56;
@@ -919,6 +920,22 @@ body::before {
 html.nav-open,
 html.nav-open body {
   overflow: hidden;
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  min-height: 2.75rem;
+  margin-left: -0.15rem;
+  color: #57534e;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.011em;
+  line-height: 1.2;
+}
+.back-link:active {
+  color: #b45309;
+  opacity: 1;
 }
 .nav-toggle {
   display: grid;

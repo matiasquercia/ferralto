@@ -1,11 +1,13 @@
 ---
+import BackLink from '@/components/BackLink.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import CheckoutForm from '@/components/CheckoutForm';
 ---
 
 <BaseLayout title="Carrito" noindex>
   <div class="container-page py-10">
-    <h1 class="page-title mb-8">Finalizar compra</h1>
+    <BackLink href="/productos" label="Volver al catálogo" />
+    <h1 class="page-title mt-2 mb-8">Finalizar compra</h1>
     <CheckoutForm client:load />
   </div>
 </BaseLayout>

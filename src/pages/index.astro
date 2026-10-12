@@ -174,7 +174,7 @@ const benefits = [
       </div>
     </div>
   </section>
-  <section class="home-close" aria-labelledby="advice-title">
+  <section class="home-close" id="asesoramiento" aria-labelledby="advice-title">
     <div class="container-page">
     <div class="home-advice">
       <div>
@@ -217,4 +217,18 @@ const benefits = [
     </div>
   </section>
   <BuyingAnswers />
+  <script>
+    const section = document.getElementById('asesoramiento');
+    const place = () => {
+      if (!section || location.hash !== '#asesoramiento') return;
+      const root = document.documentElement;
+      const previous = root.style.scrollBehavior;
+      root.style.scrollBehavior = 'auto';
+      section.scrollIntoView();
+      root.style.scrollBehavior = previous;
+    };
+    place();
+    addEventListener('load', place);
+    addEventListener('hashchange', place);
+  </script>
 </BaseLayout>
