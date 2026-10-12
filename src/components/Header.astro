@@ -1,10 +1,28 @@
 ---
 import CartButton from './CartButton';
-import { categories } from '@/lib/catalog';
 import { DELIVERY_PRICES } from '@/lib/delivery';
 import { formatPrice } from '@/lib/format';
+import { whatsappContactUrl } from '@/lib/whatsapp';
 
 const path = Astro.url.pathname;
+const nav = [
+  {
+    label: 'Catálogo',
+    href: '/productos',
+    current: path.startsWith('/productos') || path.startsWith('/categoria'),
+  },
+  {
+    label: 'Preguntas',
+    href: '/como-comprar',
+    current: path.startsWith('/como-comprar'),
+  },
+  {
+    label: 'Contacto',
+    href: whatsappContactUrl(),
+    external: true,
+    current: false,
+  },
+];
 ---
 
 <div class="announcement-bar bg-ink text-sm text-stone-200">
@@ -16,50 +34,51 @@ const path = Astro.url.pathname;
     <span>AMBA hasta 5 km: <strong class="whitespace-nowrap text-brand-300">{formatPrice(DELIVERY_PRICES.nearby)}</strong> · <span class="whitespace-nowrap">Resto: <strong class="text-brand-300">{formatPrice(DELIVERY_PRICES.amba)}</strong> <span aria-hidden="true">→</span></span></span>
   </a>
 </div>
-<header class="site-header sticky top-[env(safe-area-inset-top,0px)] z-30 border-b border-stone-200 bg-white/95 backdrop-blur">
-  <div class="container-page flex h-16 items-center justify-between gap-4">
+<header class="site-header sticky top-[env(safe-area-inset-top,0px)] z-30 border-b border-stone-200 bg-white">
+  <div class="container-page flex h-14 items-center justify-between gap-3 lg:h-16">
     <a href="/" class="flex shrink-0 items-center" aria-label="Ferralto, inicio">
-      <img src="/logo.png" alt="Ferralto" width="980" height="237" class="h-auto w-36 sm:w-44" />
+      <img src="/logo.png" alt="Ferralto" width="980" height="237" class="h-auto w-32 sm:w-40 lg:w-44" />
     </a>
 
-    <nav aria-label="Categorías" class="hidden items-center gap-6 lg:flex">
-      {categories.map((c) => (
+    <nav aria-label="Principal" class="hidden items-center gap-6 lg:flex">
+      {nav.map((item) => (
         <a
-          href={`/categoria/${c.slug}`}
+          href={item.href}
           class:list={[
-            'text-sm font-semibold transition hover:text-brand-700',
-            path.startsWith(`/categoria/${c.slug}`) ? 'text-brand-700' : 'text-steel',
+            'text-sm font-semibold tracking-[-0.011em] hover:text-brand-700',
+            item.current ? 'text-brand-700' : 'text-steel',
           ]}
+          aria-current={item.current ? 'page' : undefined}
+          target={item.external ? '_blank' : undefined}
+          rel={item.external ? 'noopener' : undefined}
         >
-          {c.name}
+          {item.label}
         </a>
       ))}
     </nav>
 
-    <div class="flex items-center gap-2">
-      <a href="/productos/todos" class="hidden text-sm font-semibold text-steel hover:text-ink sm:inline">
-        Ver todo
-      </a>
+    <div class="flex items-center gap-1">
       <CartButton client:load />
-      <details class="relative lg:hidden">
-        <summary class="grid min-h-11 min-w-11 list-none place-items-center rounded-lg p-2 hover:bg-stone-100" aria-label="Abrir menú">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M4 6h16M4 12h16M4 18h16"></path>
+      <details class="nav-sheet lg:hidden">
+        <summary class="nav-toggle">
+          <span class="sr-only nav-label-open">Abrir menú</span>
+          <span class="sr-only nav-label-close">Cerrar menú</span>
+          <svg class="nav-icon-menu" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+          <svg class="nav-icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+            <path d="M6 6l12 12M18 6 6 18"></path>
           </svg>
         </summary>
-        <nav
-          aria-label="Menú móvil"
-          class="mobile-menu absolute right-0 mt-2 w-56 rounded-xl border border-stone-200 bg-white p-2 shadow-lg"
-        >
-          <a href="/productos" class="block rounded-lg px-3 py-2 font-semibold hover:bg-stone-100">
-            Productos
-          </a>
-          <a href="/productos/todos" class="block rounded-lg px-3 py-2 hover:bg-stone-100">
-            Todos
-          </a>
-          {categories.map((c) => (
-            <a href={`/categoria/${c.slug}`} class="block rounded-lg px-3 py-2 hover:bg-stone-100">
-              {c.name}
+        <nav class="nav-panel" aria-label="Menú móvil">
+          {nav.map((item) => (
+            <a
+              href={item.href}
+              aria-current={item.current ? 'page' : undefined}
+              target={item.external ? '_blank' : undefined}
+              rel={item.external ? 'noopener' : undefined}
+            >
+              {item.label}
             </a>
           ))}
         </nav>
@@ -67,3 +86,21 @@ const path = Astro.url.pathname;
     </div>
   </div>
 </header>
+<script>
+  const sheet = document.querySelector<HTMLDetailsElement>('.nav-sheet');
+  const header = document.querySelector<HTMLElement>('.site-header');
+  if (sheet && header) {
+    const place = () => {
+      const bottom = Math.max(0, Math.round(header.getBoundingClientRect().bottom));
+      document.documentElement.style.setProperty('--chrome-bottom', `${bottom}px`);
+    };
+    sheet.addEventListener('toggle', () => {
+      place();
+      document.documentElement.classList.toggle('nav-open', sheet.open);
+    });
+    addEventListener('resize', place);
+    addEventListener('scroll', () => {
+      if (sheet.open) place();
+    }, { passive: true });
+  }
+</script>
