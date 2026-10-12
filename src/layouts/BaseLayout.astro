@@ -47,7 +47,7 @@ const ldBlocks = [organizationLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd :
 <html lang="es-AR">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -56,7 +56,9 @@ const ldBlocks = [organizationLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd :
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="theme-color" content="#1c1917" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#1c1917" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1917" />
 
     <!-- Open Graph / redes sociales -->
     <meta property="og:type" content={ogType} />

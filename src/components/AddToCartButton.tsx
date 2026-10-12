@@ -87,10 +87,8 @@ export default function AddToCartButton({ product, compact = false, withQuantity
                     }
                   }}
                   aria-pressed={c === color}
-                  className={`rounded-lg border px-4 py-2 text-sm font-medium transition ${
-                    c === color
-                      ? 'border-ink bg-ink text-white'
-                      : 'border-stone-300 bg-white hover:border-stone-500'
+                  className={`pressable rounded-lg border px-4 py-2 text-sm font-medium ${
+                    c === color ? 'border-ink bg-ink text-white' : 'border-stone-300 bg-white'
                   }`}
                 >
                   {c}
@@ -105,7 +103,7 @@ export default function AddToCartButton({ product, compact = false, withQuantity
           <div className="flex items-center rounded-lg border border-stone-300 bg-white">
             <button
               type="button"
-              className="min-h-11 min-w-11 px-3 py-2 text-lg"
+              className="pressable min-h-11 min-w-11 px-3 py-2 text-lg"
               onClick={() => setQty((q) => Math.max(1, q - 1))}
               aria-label="Restar"
             >
@@ -116,7 +114,7 @@ export default function AddToCartButton({ product, compact = false, withQuantity
             </span>
             <button
               type="button"
-              className="min-h-11 min-w-11 px-3 py-2 text-lg"
+              className="pressable min-h-11 min-w-11 px-3 py-2 text-lg"
               onClick={() => setQty((q) => Math.min(product.maxStock, q + 1))}
               aria-label="Sumar"
             >
@@ -130,7 +128,9 @@ export default function AddToCartButton({ product, compact = false, withQuantity
           disabled={outOfStock}
           className={`btn-primary min-w-0 flex-1 ${compact ? 'py-2 text-sm' : ''}`}
         >
-          {outOfStock ? 'Sin stock' : added ? '¡Agregado! ✓' : 'Agregar al carrito'}
+          <span className={added ? 'btn-label is-confirm' : 'btn-label'}>
+            {outOfStock ? 'Sin stock' : added ? '¡Agregado! ✓' : 'Agregar al carrito'}
+          </span>
         </button>
       </div>
     </div>

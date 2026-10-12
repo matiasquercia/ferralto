@@ -9,7 +9,12 @@ import { productImage } from '@/lib/images';
 import { whatsappContactUrl } from '@/lib/whatsapp';
 
 const featured = getFeaturedProducts();
-const categoryImage = (slug: string) => productImage(getProductsByCategory(slug)[0]?.images[0] ?? '', 320);
+const categoryImage = (slug: string, size = 640) => productImage(getProductsByCategory(slug)[0]?.images[0] ?? '', size);
+const [leadCategory, ...otherCategories] = categories;
+const productCount = (slug: string) => {
+  const count = getProductsByCategory(slug).length;
+  return count === 1 ? '1 producto' : `${count} productos`;
+};
 const icon =
   'width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
 const whatsappLogo =
@@ -80,89 +85,97 @@ const benefits = [
     </div>
   </section>
 
-  <section class="container-page py-10" aria-labelledby="benefits-title">
-    <h2 id="benefits-title" class="sr-only">
-      Por qué comprar en Ferralto
-    </h2>
-    <ul class="grid gap-px overflow-hidden rounded-2xl border border-stone-200 bg-stone-200 shadow-[0_1px_2px_rgba(28,25,23,0.04),0_8px_24px_-12px_rgba(28,25,23,0.12)] sm:grid-cols-2 lg:grid-cols-4">
-      {benefits.map((b) => {
-        const Tag = b.href ? 'a' : 'div';
-        return (
-          <li class="bg-white">
-            <Tag
-              {...(b.href && { href: b.href, target: '_blank', rel: 'noopener' })}
-              class:list={[
-                'flex h-full items-center gap-4 px-6 py-6',
-                b.href && 'group transition hover:bg-stone-50',
-              ]}
-            >
-              <span
-                class:list={['grid h-12 w-12 shrink-0 place-items-center rounded-full ring-1', b.tone]}
-                set:html={b.svg}
-              />
-              <div class="min-w-0">
-                <h3 class="text-[15px] leading-tight font-semibold text-ink">{b.title}</h3>
-                <p class="mt-1 text-sm leading-snug text-steel">{b.text}</p>
-                {b.href && (
-                  <span class="mt-1.5 inline-block text-xs font-semibold text-[#128C7E] group-hover:underline">
-                    Escribinos →
-                  </span>
-                )}
-              </div>
-            </Tag>
-          </li>
-        );
-      })}
-    </ul>
+  <section class="home-benefits" aria-labelledby="benefits-title">
+    <div class="container-page">
+      <h2 id="benefits-title" class="sr-only">
+        Por qué comprar en Ferralto
+      </h2>
+      <ul>
+        {benefits.map((b) => {
+          const Tag = b.href ? 'a' : 'div';
+          return (
+            <li>
+              <Tag
+                {...(b.href && { href: b.href, target: '_blank', rel: 'noopener' })}
+                class:list={['home-benefit', b.href && 'benefit-link']}
+              >
+                <span class="home-benefit-head">
+                  <span class="home-benefit-icon" set:html={b.svg} />
+                  <h3>{b.title}</h3>
+                  {b.href && (
+                    <svg class="home-benefit-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                      <path d="M6 3.5 10.5 8 6 12.5" />
+                    </svg>
+                  )}
+                </span>
+                <p>{b.text}</p>
+              </Tag>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   </section>
 
-  <section class="container-page py-14" aria-labelledby="cat-title">
-    <h2 id="cat-title" class="section-title">
-      ¿Qué necesitás para tu casa?
-    </h2>
-    <p class="mt-3 text-steel">Encontrá tu próximo producto por categoría.</p>
-    <div class="category-grid mt-6">
-      {categories.map((c) => (
-        <a
-          href={`/categoria/${c.slug}`}
-          class="group overflow-hidden rounded-2xl border border-stone-300/80 bg-white text-center transition hover:border-brand-500 hover:shadow-md"
-        >
+  <section class="home-categories" aria-labelledby="cat-title">
+    <div class="container-page">
+      <header class="home-section-head">
+        <p>Catálogo</p>
+        <h2 id="cat-title">¿Qué necesitás para tu casa?</h2>
+      </header>
+      <div class="home-category-layout">
+        <a href={`/categoria/${leadCategory.slug}`} class="home-cat home-cat-lead category-card">
           <img
-            src={categoryImage(c.slug)}
-            alt={c.name}
-            width="320"
-            height="320"
+            src={categoryImage(leadCategory.slug, 960)}
+            alt={leadCategory.name}
+            width="960"
+            height="960"
             loading="lazy"
             decoding="async"
-            class="aspect-square w-full object-cover"
           />
-          <span class="mt-3 block px-3 font-semibold">{c.name}</span>
-          <span class="mb-3 block text-xs text-steel">
-            {getProductsByCategory(c.slug).length === 1
-              ? '1 producto'
-              : `${getProductsByCategory(c.slug).length} productos`}
+          <span class="home-cat-label">
+            <strong>{leadCategory.name}</strong>
+            <em>{productCount(leadCategory.slug)}</em>
           </span>
         </a>
-      ))}
+        {otherCategories.map((c) => (
+          <a href={`/categoria/${c.slug}`} class="home-cat category-card">
+            <img
+              src={categoryImage(c.slug)}
+              alt={c.name}
+              width="640"
+              height="640"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="home-cat-label">
+              <strong>{c.name}</strong>
+              <em>{productCount(c.slug)}</em>
+            </span>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 
-  <section class="container-page pb-6" aria-labelledby="feat-title">
-    <div class="flex items-end justify-between">
-      <h2 id="feat-title" class="section-title">
-        Elegidos del catálogo
-      </h2>
-      <a href="/productos/todos" class="text-sm font-semibold text-brand-700 hover:underline">
-        Ver todos →
-      </a>
-    </div>
-    <div class="catalog-grid mt-6">
-      {featured.map((p) => (
-        <ProductCard product={p} />
-      ))}
+  <section class="home-sheet" aria-labelledby="feat-title">
+    <div class="container-page">
+      <header class="home-section-head">
+        <p>Destacados</p>
+        <div class="home-section-row">
+          <h2 id="feat-title">Elegidos del catálogo</h2>
+          <a href="/productos/todos">Ver todos</a>
+        </div>
+      </header>
+      <div class="catalog-grid">
+        {featured.map((p) => (
+          <ProductCard product={p} />
+        ))}
+      </div>
     </div>
   </section>
-  <section class="container-page mt-16" aria-labelledby="advice-title">
+  <section class="home-close" aria-labelledby="advice-title">
+    <div class="container-page">
     <div class="home-advice">
       <div>
         <p class="eyebrow">COMPRÁ CON ASESORAMIENTO</p>
@@ -182,24 +195,25 @@ const benefits = [
         Hablá con nosotros ↗
       </a>
     </div>
-    <div class="purchase-steps">
-      <div>
-        <span>01</span>
+    <ol class="purchase-steps">
+      <li>
+        <span class="purchase-mark">1</span>
         <h3>Elegí tu producto</h3>
         <p>Revisá las medidas y los colores en cada ficha.</p>
-      </div>
-      <div>
-        <span>02</span>
+      </li>
+      <li>
+        <span class="purchase-mark">2</span>
         <h3>Armá tu pedido</h3>
         <p>Sumalo al carrito o consultanos por WhatsApp.</p>
-      </div>
-      <div>
-        <span>03</span>
+      </li>
+      <li>
+        <span class="purchase-mark">3</span>
         <h3>Coordiná la entrega</h3>
         <p>
           <a href="/como-comprar#envios">Conocé cómo funcionan los envíos →</a>
         </p>
-      </div>
+      </li>
+    </ol>
     </div>
   </section>
   <BuyingAnswers />

@@ -7,7 +7,7 @@ import { formatPrice } from '@/lib/format';
 const path = Astro.url.pathname;
 ---
 
-<div class="bg-ink text-sm text-stone-200">
+<div class="announcement-bar bg-ink text-sm text-stone-200">
   <a href="/como-comprar#envios" class="container-page flex min-h-11 flex-wrap items-center justify-center gap-x-4 gap-y-1 py-3 text-center focus-visible:outline-2 focus-visible:outline-brand-500">
     <span class="inline-flex items-center justify-center gap-2 font-semibold text-white">
       <svg class="shrink-0 text-brand-300" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M14 18V6H2v12h3m4 0h6m-1-10h4l4 5v5h-3"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>
@@ -16,7 +16,7 @@ const path = Astro.url.pathname;
     <span>AMBA hasta 5 km: <strong class="whitespace-nowrap text-brand-300">{formatPrice(DELIVERY_PRICES.nearby)}</strong> · <span class="whitespace-nowrap">Resto: <strong class="text-brand-300">{formatPrice(DELIVERY_PRICES.amba)}</strong> <span aria-hidden="true">→</span></span></span>
   </a>
 </div>
-<header class="sticky top-0 z-30 border-b border-stone-200 bg-white/95 backdrop-blur">
+<header class="site-header sticky top-[env(safe-area-inset-top,0px)] z-30 border-b border-stone-200 bg-white/95 backdrop-blur">
   <div class="container-page flex h-16 items-center justify-between gap-4">
     <a href="/" class="flex shrink-0 items-center" aria-label="Ferralto, inicio">
       <img src="/logo.png" alt="Ferralto" width="980" height="237" class="h-auto w-36 sm:w-44" />
