@@ -47,8 +47,6 @@ const nav = [
             item.current ? 'text-brand-700' : 'text-steel',
           ]}
           aria-current={item.current ? 'page' : undefined}
-          target={item.external ? '_blank' : undefined}
-          rel={item.external ? 'noopener' : undefined}
         >
           {item.label}
         </a>
@@ -73,8 +71,6 @@ const nav = [
             <a
               href={item.href}
               aria-current={item.current ? 'page' : undefined}
-              target={item.external ? '_blank' : undefined}
-              rel={item.external ? 'noopener' : undefined}
             >
               {item.label}
             </a>
