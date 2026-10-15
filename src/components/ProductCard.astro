@@ -19,7 +19,7 @@ const off = product.price !== null ? discountPercent(product.price, product.comp
     price: product.price,
     item_category: product.category,
   })}
-  class="group flex flex-col overflow-hidden rounded-2xl border border-stone-300/80 bg-white transition hover:shadow-lg"
+  class="product-card group flex flex-col overflow-hidden rounded-2xl border border-stone-300/80 bg-white"
 >
   <a
     href={`/productos/${product.slug}`}

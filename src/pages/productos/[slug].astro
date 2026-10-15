@@ -74,6 +74,7 @@ const metaPrice = product.price !== null ? ` ${formatPrice(product.price)}.` : '
   >
     <Breadcrumbs
       items={[
+        { name: 'Productos', href: '/productos' },
         { name: category.name, href: `/categoria/${category.slug}` },
         { name: product.name, href: `/productos/${product.slug}` },
       ]}
@@ -180,16 +181,16 @@ const metaPrice = product.price !== null ? ` ${formatPrice(product.price)}.` : '
       </div>
 
       <div>
-        <p class="text-sm font-semibold tracking-wide text-steel uppercase">
+        <p class="kicker">
           {product.brand} · Cód. {product.sku}
         </p>
-        <h1 class="product-title mt-2 font-display text-3xl leading-tight font-bold uppercase sm:text-5xl">
+        <h1 class="product-title page-title mt-2">
           {product.name}
         </h1>
         <div class="mt-4 flex items-baseline gap-3">
           {product.price !== null ? (
             <>
-              <span class="text-4xl font-bold">{formatPrice(product.price)}</span>
+              <span class="product-price">{formatPrice(product.price)}</span>
               {off > 0 && (
                 <span class="text-lg text-stone-400 line-through">
                   {formatPrice(product.compareAtPrice!)}

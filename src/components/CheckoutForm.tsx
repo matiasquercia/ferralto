@@ -519,7 +519,7 @@ export default function CheckoutForm() {
         </section>
 
         <form onSubmit={payWithMercadoPago} noValidate className="h-fit space-y-4 rounded-2xl border border-stone-200 bg-white p-6">
-          <h2 className="font-display text-2xl font-bold uppercase">Tus datos</h2>
+          <h2 className="section-title">Tus datos</h2>
           <p className="text-sm text-steel">Los campos con * son obligatorios para coordinar el envío.</p>
 
           {submitted && visibleErrors.length > 0 && (
@@ -550,6 +550,8 @@ export default function CheckoutForm() {
               id="name"
               className={`${inputBase} ${showError('name') ? inputErr : inputOk}`}
               autoComplete="name"
+              autoCapitalize="words"
+              enterKeyHint="next"
               value={buyer.name}
               onChange={update('name')}
               onBlur={blur('name')}
@@ -572,7 +574,10 @@ export default function CheckoutForm() {
               type="email"
               className={`${inputBase} ${showError('email') ? inputErr : inputOk}`}
               autoComplete="email"
+              autoCapitalize="none"
+              autoCorrect="off"
               inputMode="email"
+              enterKeyHint="next"
               value={buyer.email}
               onChange={update('email')}
               onBlur={blur('email')}
@@ -596,6 +601,7 @@ export default function CheckoutForm() {
               className={`${inputBase} ${showError('phone') ? inputErr : inputOk}`}
               autoComplete="tel"
               inputMode="tel"
+              enterKeyHint="next"
               value={buyer.phone}
               onChange={update('phone')}
               onBlur={blur('phone')}
@@ -630,7 +636,9 @@ export default function CheckoutForm() {
                 }
                 className={`${inputBase} ${showError('street') ? inputErr : inputOk}`}
                 autoComplete="street-address"
+                autoCapitalize="words"
                 spellCheck={false}
+                enterKeyHint="next"
                 value={buyer.street}
                 onChange={update('street')}
                 onBlur={blur('street')}
@@ -696,6 +704,7 @@ export default function CheckoutForm() {
                 id="unit"
                 className={`${inputBase} ${showError('unit') ? inputErr : inputOk}`}
                 autoComplete="address-line2"
+                enterKeyHint="next"
                 value={buyer.unit}
                 onChange={update('unit')}
                 onBlur={blur('unit')}
@@ -733,7 +742,9 @@ export default function CheckoutForm() {
                 }
                 className={`${inputBase} ${showError('locality') ? inputErr : inputOk}`}
                 autoComplete="address-level2"
+                autoCapitalize="words"
                 spellCheck={false}
+                enterKeyHint="next"
                 value={buyer.locality}
                 onChange={update('locality')}
                 onBlur={blur('locality')}
@@ -805,7 +816,9 @@ export default function CheckoutForm() {
                 id="postalCode"
                 className={`${inputBase} ${showError('postalCode') ? inputErr : inputOk}`}
                 autoComplete="postal-code"
+                autoCapitalize="characters"
                 inputMode="text"
+                enterKeyHint="next"
                 value={buyer.postalCode}
                 onChange={update('postalCode')}
                 onBlur={blur('postalCode')}
@@ -871,6 +884,7 @@ export default function CheckoutForm() {
               className={`${inputBase} ${showError('notes') ? inputErr : inputOk}`}
               rows={2}
               maxLength={500}
+              enterKeyHint="done"
               value={buyer.notes}
               onChange={update('notes')}
               onBlur={blur('notes')}

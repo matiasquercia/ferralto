@@ -23,8 +23,14 @@ const slides = [
   />
 ))}
 <script>
-  const hero = document.querySelector<HTMLElement>('[data-hero]');
-  if (hero) {
+    const hero = document.querySelector<HTMLElement>('[data-hero]');
+    if (hero) {
+      const fitFrame = () => {
+        const top = Math.max(0, Math.round(hero.getBoundingClientRect().top + window.scrollY));
+        document.documentElement.style.setProperty('--hero-top', `${top}px`);
+      };
+      fitFrame();
+      addEventListener('resize', fitFrame);
     const images = [...hero.querySelectorAll<HTMLImageElement>('.hero-slide')];
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
     const mobile = matchMedia('(max-width: 767px)');

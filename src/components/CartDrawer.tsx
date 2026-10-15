@@ -52,7 +52,7 @@ export default function CartDrawer() {
         className="absolute top-0 right-0 flex h-full w-full max-w-md flex-col bg-white shadow-2xl"
       >
         <div className="flex items-center justify-between border-b border-stone-200 p-5">
-          <h2 className="font-display text-2xl font-bold uppercase">Tu carrito</h2>
+          <h2 className="panel-title">Tu carrito</h2>
           <button
             type="button"
             onClick={() => $cartOpen.set(false)}

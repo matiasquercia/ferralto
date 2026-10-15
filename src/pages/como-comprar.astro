@@ -1,4 +1,5 @@
 ---
+import BackLink from '@/components/BackLink.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 const faqs = [
   {
@@ -35,7 +36,8 @@ const ld = {
   jsonLd={ld}
 >
   <div class="container-page max-w-3xl py-12">
-    <h1 class="font-display text-5xl font-bold uppercase">Cómo comprar</h1>
+    <BackLink href="/productos" label="Volver al catálogo" />
+    <h1 class="page-title mt-2">Cómo comprar</h1>
     <div class="mt-8 space-y-4">
       {faqs.map((f, i) => (
         <details
