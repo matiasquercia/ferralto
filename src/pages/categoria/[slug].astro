@@ -21,6 +21,9 @@ const categoryDescription = category.slug === 'escaleras'
   ? 'Comprá escaleras Safari en Ferralto para tu hogar. Modelos de 2 a 7 peldaños y escalerita fija. Compará precios, medidas y colores; consultá tu envío antes de pagar.'
   : category.description;
 const guide = buyingGuides[category.slug];
+const landingDescription = category.slug === 'escaleras'
+  ? 'Escaleras Safari de acero para el hogar. Modelos de 2 a 7 peldaños y fija de 2. Elegí tu modelo y color.'
+  : categoryDescription;
 const ld = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
@@ -32,7 +35,7 @@ const ld = {
 ---
 
 <BaseLayout title={`${categoryTitle} — comprá online`} description={categoryDescription} jsonLd={ld}>
-  <div class="container-page py-10">
+  <div class="container-page py-6 sm:py-10">
     <Breadcrumbs
       items={[
         { name: 'Productos', href: '/productos' },
@@ -40,9 +43,8 @@ const ld = {
       ]}
     />
     <h1 class="mt-4 font-display text-5xl font-bold uppercase">{categoryTitle}</h1>
-    <p class="mt-2 max-w-2xl text-steel">{categoryDescription}</p>
-    {category.slug === 'escaleras' && <p class="mt-3 max-w-2xl text-steel">Ferralto vende al consumidor final: podés comprar una escalera Safari para tu casa y recibir asesoramiento para elegir el modelo.</p>}
-    <p class="mt-4 text-sm font-semibold">Venta y envíos solo dentro de AMBA · Mercado Pago · Asesoramiento antes de comprar</p>
+    <p class="mt-2 max-w-2xl text-steel">{landingDescription}</p>
+    <p class="mt-4 text-sm font-semibold">Venta minorista · Envíos solo a AMBA · Mercado Pago</p>
     <a class="mt-3 inline-block text-sm underline" href={whatsappContactUrl(`¡Hola! Necesito ayuda para elegir: ${category.name}.`)} target="_blank" rel="noopener">Te ayudamos a elegir →</a>
     <div class="mt-8" data-view-list={JSON.stringify({ item_list_id: category.slug, item_list_name: category.name, items: items.map((p, index) => ({ item_id: p.id, item_name: p.name, item_category: p.category, price: p.price, index })) })}>
       <ProductGrid products={items} />
