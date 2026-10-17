@@ -212,6 +212,17 @@ const metaPrice = product.price !== null ? ` ${formatPrice(product.price)}.` : '
         )}
 
         <div class="mt-5"><DeliveryOffer /></div>
+        {product.price !== null && product.category === 'escaleras' && (
+          <a
+            href={whatsappContactUrl(`¡Hola! Quiero consultar medidas, precio final y entrega de ${product.name} en mi localidad (${url}).`)}
+            target="_blank"
+            rel="noopener"
+            data-contact-placement="ladder-product"
+            class="btn-whatsapp mt-4 w-full"
+          >
+            Consultá modelo y envío por WhatsApp ↗
+          </a>
+        )}
         <AddToCartButton
           client:load
           withQuantity
@@ -226,7 +237,7 @@ const metaPrice = product.price !== null ? ` ${formatPrice(product.price)}.` : '
             imagesByColor: product.imagesByColor,
           }}
         />
-        {product.price !== null && (
+        {product.price !== null && product.category !== 'escaleras' && (
           <a
             href={whatsappContactUrl(`¡Hola! Quiero consultar por: ${product.name} (${url})`)}
             target="_blank"

@@ -262,13 +262,13 @@ export function initializeMeasurement() {
     const link = target?.closest<HTMLAnchorElement>('a[href]');
     if (!link) return;
     const url = new URL(link.href, location.origin);
-    const placement = link.closest('header')
+    const placement = link.dataset?.contactPlacement || (link.closest('header')
       ? 'header'
       : link.closest('footer')
         ? 'footer'
         : link.closest('[data-hero]')
           ? 'hero'
-          : 'content';
+          : 'content');
     // One delegated handler covers static links and React islands, including keyboard activation.
     if (url.hostname === 'wa.me' || url.hostname === 'api.whatsapp.com') {
       track('whatsapp_click', { placement, page_path: location.pathname });
