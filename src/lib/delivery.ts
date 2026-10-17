@@ -1,6 +1,8 @@
 /** Customer tariffs confirmed by the business on 2026-10-09, per whole order.
  * These are sale prices, independent of private carrier cost quotations. */
 export const DELIVERY_PRICES = { caba: 15000, nearby: 15000, amba: 35000 } as const;
+// Total delivery lead times, including preparation, confirmed by the business on 2026-10-17.
+export const LADDER_DELIVERY_TIME = 'Entrega de escaleras: 1 día en CABA y 2 días en el resto de AMBA. Coordiná la fecha por WhatsApp.';
 export const NEARBY_RADIUS_KM = 5;
 // Georef: OBISPO SAN ALBERTO 3796, Comuna 11, CABA. Verified 2026-10-09.
 export const DISPATCH_ORIGIN = { lat: -34.58961592968724, lon: -58.517791248821474 } as const;

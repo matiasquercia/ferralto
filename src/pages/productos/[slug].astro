@@ -10,6 +10,7 @@ import { discountPercent, formatPrice } from '@/lib/format';
 import { productImage } from '@/lib/images';
 import { SITE } from '@/lib/site';
 import { whatsappContactUrl } from '@/lib/whatsapp';
+import { LADDER_DELIVERY_TIME } from '@/lib/delivery';
 
 export const getStaticPaths = (() =>
   products.map((product) => ({
@@ -212,6 +213,7 @@ const metaPrice = product.price !== null ? ` ${formatPrice(product.price)}.` : '
         )}
 
         <div class="mt-5"><DeliveryOffer /></div>
+        {product.category === 'escaleras' && <p class="mt-3 text-sm font-semibold">{LADDER_DELIVERY_TIME}</p>}
         {product.price !== null && product.category === 'escaleras' && (
           <a
             href={whatsappContactUrl(`¡Hola! Quiero consultar medidas, precio final y entrega de ${product.name} en mi localidad (${url}).`)}

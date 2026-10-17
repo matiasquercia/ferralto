@@ -7,6 +7,7 @@ import { categories, getProductsByCategory, type Category } from '@/lib/catalog'
 import { buyingGuides } from '@/lib/buying-guides';
 import { whatsappContactUrl } from '@/lib/whatsapp';
 import { SITE } from '@/lib/site';
+import { LADDER_DELIVERY_TIME } from '@/lib/delivery';
 
 export const getStaticPaths = (() =>
   categories.map((category) => ({
@@ -45,6 +46,7 @@ const ld = {
     <h1 class="page-title mt-4">{categoryTitle}</h1>
     <p class="mt-2 max-w-2xl text-steel">{landingDescription}</p>
     <p class="mt-4 text-sm font-semibold">Venta minorista · Envíos solo a AMBA · Mercado Pago</p>
+    {category.slug === 'escaleras' && <p class="mt-2 max-w-2xl text-sm font-semibold">{LADDER_DELIVERY_TIME}</p>}
     {category.slug === 'escaleras' ? (
       <div class="mt-4">
         <a class="btn-whatsapp inline-flex" data-contact-placement="ladder-category" href={whatsappContactUrl('¡Hola! Quiero elegir una escalera Safari y consultar el precio final y la entrega en mi localidad.')} target="_blank" rel="noopener">Elegí tu escalera por WhatsApp ↗</a>
