@@ -10,7 +10,7 @@ import { discountPercent, formatPrice } from '@/lib/format';
 import { productImage } from '@/lib/images';
 import { SITE } from '@/lib/site';
 import { whatsappContactUrl } from '@/lib/whatsapp';
-import { LADDER_DELIVERY_TIME } from '@/lib/delivery';
+import { DELIVERY_PRICES, LADDER_DELIVERY_TIME } from '@/lib/delivery';
 
 export const getStaticPaths = (() =>
   products.map((product) => ({
@@ -81,7 +81,33 @@ const metaPrice = product.price !== null ? ` ${formatPrice(product.price)}.` : '
       ]}
     />
 
-    <div class="product-layout mt-6 grid gap-6 md:grid-cols-2 md:gap-10">
+    <div class="product-layout mt-6 grid gap-6 md:grid-cols-2 md:gap-x-10">
+      <div class="product-summary">
+        <p class="kicker">{product.brand} · Cód. {product.sku}</p>
+        <h1 class="product-title page-title mt-2">{product.name}</h1>
+        <div class="mt-4 flex items-baseline gap-3">
+          {product.price !== null ? (
+            <>
+              <span class="product-price">{formatPrice(product.price)}</span>
+              {off > 0 && <span class="text-lg text-stone-400 line-through">{formatPrice(product.compareAtPrice!)}</span>}
+            </>
+          ) : <span class="text-2xl font-semibold text-steel">Precio a consultar</span>}
+        </div>
+        {product.price !== null && <p class="mt-1 text-sm text-steel">Pagá en cuotas con Mercado Pago</p>}
+        <p class="mt-4 text-lg">{product.shortDescription}</p>
+        {product.price !== null && product.category === 'escaleras' && (
+          <>
+            <p class="mt-3 text-sm text-steel">Envío adicional: CABA {formatPrice(DELIVERY_PRICES.caba)} · AMBA {formatPrice(DELIVERY_PRICES.nearby)} a {formatPrice(DELIVERY_PRICES.amba)}, según dirección.</p>
+            <a
+              href={whatsappContactUrl(`¡Hola! Quiero consultar medidas, precio final y entrega de ${product.name} en mi localidad (${url}).`)}
+              target="_blank"
+              rel="noopener"
+              data-contact-placement="ladder-product"
+              class="btn-whatsapp mt-4 w-full"
+            >Consultá esta escalera por WhatsApp ↗</a>
+          </>
+        )}
+      </div>
       <div data-gallery>
         <button
           type="button"
@@ -181,29 +207,7 @@ const metaPrice = product.price !== null ? ` ${formatPrice(product.price)}.` : '
         </dialog>
       </div>
 
-      <div>
-        <p class="kicker">
-          {product.brand} · Cód. {product.sku}
-        </p>
-        <h1 class="product-title page-title mt-2">
-          {product.name}
-        </h1>
-        <div class="mt-4 flex items-baseline gap-3">
-          {product.price !== null ? (
-            <>
-              <span class="product-price">{formatPrice(product.price)}</span>
-              {off > 0 && (
-                <span class="text-lg text-stone-400 line-through">
-                  {formatPrice(product.compareAtPrice!)}
-                </span>
-              )}
-            </>
-          ) : (
-            <span class="text-2xl font-semibold text-steel">Precio a consultar</span>
-          )}
-        </div>
-        {product.price !== null && <p class="mt-1 text-sm text-steel">Pagá en cuotas con Mercado Pago</p>}
-        <p class="mt-5 text-lg">{product.shortDescription}</p>
+      <div class="product-details">
         {product.stock !== null && (
           <p
             class:list={['mt-4 text-sm font-semibold', product.stock > 0 ? 'text-green-700' : 'text-red-600']}
@@ -214,17 +218,6 @@ const metaPrice = product.price !== null ? ` ${formatPrice(product.price)}.` : '
 
         <div class="mt-5"><DeliveryOffer /></div>
         {product.category === 'escaleras' && <p class="mt-3 text-sm font-semibold">{LADDER_DELIVERY_TIME}</p>}
-        {product.price !== null && product.category === 'escaleras' && (
-          <a
-            href={whatsappContactUrl(`¡Hola! Quiero consultar medidas, precio final y entrega de ${product.name} en mi localidad (${url}).`)}
-            target="_blank"
-            rel="noopener"
-            data-contact-placement="ladder-product"
-            class="btn-whatsapp mt-4 w-full"
-          >
-            Consultá modelo y envío por WhatsApp ↗
-          </a>
-        )}
         <AddToCartButton
           client:load
           withQuantity
@@ -280,6 +273,27 @@ const metaPrice = product.price !== null ? ` ${formatPrice(product.price)}.` : '
     )}
   </div>
 </BaseLayout>
+
+<style>
+  .product-summary { grid-area: summary; }
+  [data-gallery] { grid-area: gallery; min-width: 0; }
+  .product-details { grid-area: details; min-width: 0; }
+  .product-layout { grid-template-areas: 'summary' 'gallery' 'details'; }
+  @media (max-width: 767px) {
+    [data-gallery-thumbs]:not(.hidden) {
+      display: flex;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    [data-gallery-thumbs] :global(button) { flex: 0 0 64px; }
+  }
+  @media (min-width: 768px) {
+    .product-layout {
+      grid-template-areas: 'gallery summary' 'gallery details';
+      grid-template-rows: auto 1fr;
+    }
+  }
+</style>
 
 <script>
   import { productImage } from '@/lib/images';
