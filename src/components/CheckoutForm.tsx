@@ -447,6 +447,8 @@ export default function CheckoutForm() {
       // El pedido por WhatsApp sigue; Notion es un respaldo.
     }
     track('checkout_submit', { payment_method: 'whatsapp' });
+    // This button navigates directly, so the delegated anchor listener cannot measure it.
+    track('whatsapp_click', { placement: 'checkout-order', page_path: window.location.pathname });
     window.location.href = buildWhatsAppOrderUrl(items, buyer, shipping);
   };
 
