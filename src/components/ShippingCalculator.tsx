@@ -11,7 +11,9 @@ const availableProducts = products.filter(isPurchasable);
 const inputClass = 'mt-1 block min-h-11 w-full rounded-lg border border-stone-300 bg-white px-3 py-2 focus:border-brand-500 focus:outline-2 focus:outline-brand-500';
 
 export default function ShippingCalculator() {
-  const cart = useStore($cart);
+  const savedCart = useStore($cart);
+  const [mounted, setMounted] = useState(false);
+  const cart = mounted ? savedCart : [];
   const [mode, setMode] = useState<'cart' | 'product'>('product');
   const [productId, setProductId] = useState('');
   const [quantity, setQuantity] = useState('1');
@@ -24,6 +26,7 @@ export default function ShippingCalculator() {
     const match = availableProducts.find(({ id }) => id === requestedProduct);
     if (match) setProductId(match.id);
     else if ($cart.get().length) setMode('cart');
+    setMounted(true);
   }, []);
 
   const product = availableProducts.find(({ id }) => id === productId);
