@@ -20,6 +20,7 @@ function load(path, dependencies = {}, globals = {}) {
 const delivery = load('lib/delivery.ts');
 const shipping = load('lib/shipping.ts');
 const data = (file) => JSON.parse(readFileSync(new URL(`../src/data/${file}.json`, import.meta.url), 'utf8'));
+const catalog = data('catalog');
 const safari = data('shipping/safari');
 const neighborhoods = load('lib/shipping-neighborhoods.server.ts', {
   '@/data/shipping/caba-boundary.json': data('shipping/caba-boundary'),
@@ -28,7 +29,7 @@ const neighborhoods = load('lib/shipping-neighborhoods.server.ts', {
 const serverFor = (origin, development = false) => load('lib/shipping.server.ts', {
   './delivery': delivery, './shipping-neighborhoods.server': neighborhoods,
   './env.server': { serverSecret: () => origin },
-  '@/data/shipping/safari.json': safari, 'geographiclib-geodesic': GeographicLib,
+  '@/data/catalog.json': catalog, '@/data/shipping/safari.json': safari, 'geographiclib-geodesic': GeographicLib,
 }, { development });
 const server = serverFor(undefined, true);
 const caba = { province: 'Ciudad Autónoma de Buenos Aires', locality: 'CABA' };
@@ -61,33 +62,41 @@ test('outside AMBA, missing municipality and same-name municipalities in other p
   ]) assert.equal(delivery.deliveryZone(destination), null);
 });
 
-test('the quotient matches the pilot for single, mixed and repeated items', () => {
+test('a mixed cart has one fare and uses the large group when it includes a 6- or 7-step ladder', () => {
   const mixed = [item('SAF-2012'), item('SAF-TP-ALAS'), item('SAF-5035')];
-  assert.equal(quote([item('SAF-2012')]), 5000);
-  assert.equal(quote([item('SAF-5035')]), 5000);
-  assert.equal(quote([item('SAF-2002', 2)]), 10000);
-  assert.equal(quote(mixed), 9500);
-  assert.equal(quote([...mixed, item('SAF-TP-ALAS')]), 12000);
-  assert.equal(quote([...mixed, item('SAF-2012')].reverse()), 10500);
-  assert.deepEqual(['2501', '2502', '2540', '2550'].map((code) => quote([item(`SAF-${code}`)])), [12000, 13000, 13500, 14500]);
+  assert.equal(quote(mixed, 17000), 22000);
+  assert.equal(quote([...mixed, item('SAF-TP-ALAS')], 17000), 22000);
+  assert.equal(quote([...mixed, item('SAF-2006')], 17000), 25000);
+  assert.equal(quote([item('SAF-2007', 2), ...mixed], 17000), 25000);
 });
 
-test('WGS84 bands use precise boundaries, including the maximum distance', () => {
-  const lines = [item('SAF-2002')];
-  for (const meters of [0, 4999.999, 5000]) assert.equal(quote(lines, meters), 7500);
-  for (const meters of [5000.001, 10000]) assert.equal(quote(lines, meters), 15000);
-  assert.equal(quote(lines, 55000), 82500);
-  assert.equal(quote(lines, 55000.001), null);
-  assert.equal(server.shippingForOrder(lines, { ...atDistance(5000), department: 'La Plata' }).amount, null);
+test('all eleven WGS84 bands use the agreed fares and precise boundaries', () => {
+  const standard = [6000, 12000, 15000, 22000, 25000, 28000, 30000, 32000, 35000, 38000, 40000];
+  const large = [7000, 12000, 15000, 25000, 30000, 33000, 35000, 37000, 40000, 40000, 40000];
+  for (const [sku, fares] of [['SAF-2005', standard], ['SAF-2006', large], ['SAF-2007', large]]) {
+    const lines = [item(sku)];
+    assert.equal(quote(lines, 0), fares[0]);
+    for (const [index, fare] of fares.entries()) {
+      const boundary = (index + 1) * 5000;
+      assert.equal(quote(lines, boundary), fare);
+      assert.equal(quote(lines, boundary + 0.001), fares[index + 1] ?? null);
+    }
+  }
+  assert.equal(server.shippingForOrder([item('SAF-2007')], { ...atDistance(55000), department: 'San Vicente' }).amount, 40000);
+  assert.equal(server.shippingForOrder([item('SAF-2002')], { ...atDistance(5000), department: 'La Plata' }).amount, null);
 });
 
-test('the 20% benefit applies once and only within eligible CABA geometry', () => {
-  const lines = [item('SAF-2012'), item('SAF-TP-ALAS'), item('SAF-5035')];
+test('the $10,000 neighborhood fare applies to both groups in the second circle only', () => {
+  const urquiza = { lat: -34.573197245349604, lon: -58.49436807168912 };
+  const devoto = { lat: -34.600331, lon: -58.514904 };
   const caballito = { lat: -34.6166611410831, lon: -58.4447324283245 };
-  const belgrano = { lat: -34.553351835960925, lon: -58.44905584128562 };
-  const amount = (zone, coordinates) => server.shippingForOrder(lines, { ...zone, coordinates }).amount;
-  assert.equal(amount(caba, caballito), amount(caseros, caballito) * 0.8);
-  assert.equal(amount(caba, belgrano), amount(caseros, belgrano));
+  for (const sku of ['SAF-2001', 'SAF-2007']) {
+    const amount = (zone, coordinates) => server.shippingForOrder([item(sku)], { ...zone, coordinates }).amount;
+    assert.equal(amount(caba, urquiza), 10000);
+    assert.equal(amount(caseros, urquiza), 12000);
+    assert.equal(amount(caba, devoto), 12000);
+    assert.equal(amount(caba, caballito), 15000);
+  }
 });
 
 test('missing coordinates, unsupported products and malformed quantities fail closed', () => {
@@ -99,14 +108,15 @@ test('missing coordinates, unsupported products and malformed quantities fail cl
   }
 });
 
-test('every priced product maps to one logistics profile and has an existing photo', () => {
-  const { products } = data('catalog');
+test('all 28 priced products use their shipping group and have an existing photo', () => {
+  const { products } = catalog;
   assert.equal(products.length, 28);
   assert.equal(new Set(products.map((p) => p.id)).size, products.length);
   assert.equal(new Set(products.map((p) => p.slug)).size, products.length);
   for (const product of products) {
     assert.ok(Number.isSafeInteger(product.price) && product.price > 0, product.sku);
-    assert.ok(quote([item(product.sku)]) > 0, product.sku);
+    const expected = ['SAF-2006', 'SAF-2007'].includes(product.sku) ? 7000 : 6000;
+    assert.equal(quote([item(product.sku)]), expected, product.sku);
     for (const image of product.images) assert.ok(readFileSync(new URL(`../public${image}`, import.meta.url)).length > 0);
   }
 });
@@ -117,7 +127,7 @@ test('production needs a configured and confirmed dispatch origin', () => {
   assert.equal(serverFor(undefined).shippingForOrder(lines, destination).amount, null);
   assert.equal(serverFor(JSON.stringify({ point: safari.pilotOrigin })).shippingForOrder(lines, destination).amount, null);
   const configured = serverFor(JSON.stringify({ point: safari.pilotOrigin, confirmation: 'Fixture' }));
-  assert.equal(configured.shippingForOrder(lines, destination).amount, 7500);
+  assert.equal(configured.shippingForOrder(lines, destination).amount, 6000);
 });
 
 function orderFor(destination) {
@@ -138,7 +148,7 @@ function orderFor(destination) {
 const input = { items: [{ id: 'SAF-2012', quantity: 2 }], buyer: { street: 'Fixture 100', locality: 'CABA', postalCode: '1043' }, channel: 'mercadopago' };
 
 test('checkout recalculates shipping and rejects altered or stale amounts', async () => {
-  for (const [destination, amount] of [[atDistance(4000), 6500], [atDistance(8000), 12500]]) {
+  for (const [destination, amount] of [[atDistance(4000), 6000], [atDistance(8000), 12000]]) {
     const api = orderFor(destination);
     const result = await api.buildOrder({ ...input, shippingAmount: amount });
     assert.equal(result.ok, true);
@@ -174,13 +184,13 @@ test('Mercado Pago receives one shipping item and the same total as the saved or
   });
   assert.equal((await post(5000)).status, 409);
   assert.equal(preferences.length, 0);
-  assert.equal((await post(6500)).status, 200);
+  assert.equal((await post(6000)).status, 200);
   assert.equal(preferences.length, 1);
   assert.equal(saved.length, 1);
   const items = preferences[0].items;
   const shippingItems = items.filter(({ id }) => id.startsWith('shipping-'));
   assert.equal(shippingItems.length, 1);
-  assert.equal(shippingItems[0].unit_price, 6500);
+  assert.equal(shippingItems[0].unit_price, 6000);
   assert.equal(items.reduce((total, line) => total + line.unit_price * line.quantity, 0), saved[0].total);
 });
 

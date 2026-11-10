@@ -1,4 +1,5 @@
 import GeographicLib from 'geographiclib-geodesic';
+import catalog from '@/data/catalog.json';
 import safari from '@/data/shipping/safari.json';
 import { hasNeighborhoodDiscount } from './shipping-neighborhoods.server';
 import { serverSecret } from './env.server';
@@ -7,8 +8,7 @@ import type { ShippingEstimate } from './shipping';
 
 type Point = NonNullable<DeliveryDestination['coordinates']>;
 type ShippingLine = { sku: string; quantity: number };
-type LoadProfile = { massKg: number; dimensionsCm: number[] } | { ratios: number[] };
-const profiles: Record<string, LoadProfile> = safari.load;
+const catalogSkus = new Set(catalog.products.map(({ sku }) => sku));
 const WGS84 = GeographicLib.Geodesic.WGS84;
 const boundaryToleranceM = 1e-7;
 
@@ -30,16 +30,6 @@ function dispatchOrigin(): Point | null {
   }
 }
 
-function loadRatios(profile: LoadProfile) {
-  if ('ratios' in profile) return profile.ratios;
-  const [length, width, depth] = profile.dimensionsCm;
-  return [
-    profile.massKg / safari.reference.mass,
-    (length * width * depth) / 1e6 / safari.reference.volume,
-    Math.max(length, width, depth) / 100 / safari.reference.length,
-  ];
-}
-
 export function shippingForOrder(lines: ShippingLine[], destination: DeliveryDestination): ShippingEstimate {
   const pending: ShippingEstimate = {
     status: 'quote_required',
@@ -53,41 +43,27 @@ export function shippingForOrder(lines: ShippingLine[], destination: DeliveryDes
       !validPoint(point) || !origin || !lines.length) return pending;
 
   const meters = WGS84.Inverse(origin.lat, origin.lon, point.lat, point.lon).s12;
-  if (meters === undefined || !Number.isFinite(meters) || meters > safari.maxKm * 1000 + boundaryToleranceM) return pending;
+  if (meters === undefined || !Number.isFinite(meters)) return pending;
+  const circle = safari.circles.find(({ maxKm }) => meters <= maxKm * 1000 + boundaryToleranceM);
+  if (!circle) return pending;
 
   const quantities = new Map<string, number>();
   for (const { sku, quantity } of lines) {
-    if (!Object.hasOwn(profiles, sku) || !Number.isSafeInteger(quantity) || quantity < 1) return pending;
+    if (!catalogSkus.has(sku) || !Number.isSafeInteger(quantity) || quantity < 1) return pending;
     const sum = (quantities.get(sku) ?? 0) + quantity;
     if (sum > 10000) return pending;
     quantities.set(sku, sum);
   }
-  let mass = 0;
-  let volume = 0;
-  let longest = 0;
-  for (const sku of [...quantities.keys()].sort()) {
-    const [m, v, l] = loadRatios(profiles[sku]);
-    const quantity = quantities.get(sku)!;
-    mass += quantity * m;
-    volume += quantity * v;
-    longest = Math.max(longest, l);
-  }
-  const weight = 1 / 3;
-  const loadQuotient = weight * mass + weight * volume + weight * longest;
-  const orderFactor = (1 + loadQuotient) / 2;
-  const billedKm = Math.max(1, Math.ceil((meters - boundaryToleranceM) / 5000)) * 5;
-  const baseAmount = Math.ceil(
-    Math.max(safari.minimum, safari.ratePerKm * billedKm * orderFactor) / safari.roundingStep,
-  ) * safari.roundingStep;
-  const amount = zone === 'caba' && hasNeighborhoodDiscount(point)
-    ? Math.round(baseAmount * (100 - safari.discount)) / 100
+  const baseAmount = safari.largeSkus.some((sku) => quantities.has(sku)) ? circle.large : circle.standard;
+  const amount = circle.cabaNeighborhoodFare !== undefined && zone === 'caba' && hasNeighborhoodDiscount(point)
+    ? circle.cabaNeighborhoodFare
     : baseAmount;
   if (!Number.isSafeInteger(amount) || amount <= 0) return pending;
 
   return {
     status: 'estimated',
     amount,
-    rateId: 'safari-quotient-v1',
+    rateId: 'safari-circles-v2',
     message: 'Envío a domicilio. Coordinamos la fecha de entrega por WhatsApp.',
   };
 }

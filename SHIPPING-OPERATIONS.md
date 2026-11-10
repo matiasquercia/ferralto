@@ -2,7 +2,7 @@
 
 El carrito consulta el costo de envío en el servidor al completar el domicilio. Georef verifica calle, altura y localidad, y el servidor valida el código postal y la cobertura de AMBA. Los destinos de La Plata, los que exceden el alcance operativo del piloto y los que no tienen una dirección precisa pasan a consulta por WhatsApp. El usuario ve el importe del pedido después de ingresar la dirección.
 
-El servidor calcula el cociente de carga del pedido usando las cantidades, el peso y el volumen acumulados y el mayor largo. Usa los perfiles comerciales del piloto cuando no hay medidas de transporte completas. Calcula distancia geodésica WGS84 desde la fábrica de Caseros, con franjas de 5 km hasta 55 km. Aplica el beneficio del piloto a los 17 barrios seleccionados según su geometría oficial. Los parámetros y perfiles viven en `src/data/shipping/safari.json`. Los datos de barrios y perímetro de Buenos Aires Data se usan bajo CC BY 2.5 AR. Se conservaron las geometrías completas de los barrios elegibles. La atribución y las fuentes están en `src/data/shipping/caba-geography-source.json`.
+El servidor calcula la distancia geodésica WGS84 desde la fábrica de Caseros en 11 franjas de 5 km hasta 55 km. Aplica una tarifa por pedido según la franja. Si el carrito contiene una escalera de 6 o 7 peldaños, usa la columna de escaleras grandes. En la segunda franja, las direcciones de los 17 barrios seleccionados de CABA tienen una tarifa de $10.000 en ambos grupos. Las tarifas viven en `src/data/shipping/safari.json`. Las geometrías oficiales de barrios y del perímetro de CABA se usan bajo CC BY 2.5 AR. La atribución y las fuentes están en `src/data/shipping/caba-geography-source.json`.
 
 ## Configuración y prueba
 
