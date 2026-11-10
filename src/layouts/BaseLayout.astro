@@ -35,6 +35,7 @@ const organizationLd = {
   '@id': `${SITE.url}/#organization`,
   name: SITE.name,
   url: SITE.url,
+  telephone: `+${SITE.whatsapp}`,
   logo: new URL('/logo.png', SITE.url).href,
 
   address: { '@type': 'PostalAddress', addressLocality: SITE.city, addressCountry: 'AR' },

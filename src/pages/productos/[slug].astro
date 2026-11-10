@@ -10,7 +10,7 @@ import { discountPercent, formatPrice } from '@/lib/format';
 import { productImage } from '@/lib/images';
 import { SITE } from '@/lib/site';
 import { whatsappContactUrl } from '@/lib/whatsapp';
-import { DELIVERY_PRICES, LADDER_DELIVERY_TIME } from '@/lib/delivery';
+import { LADDER_DELIVERY_TIME } from '@/lib/delivery';
 
 export const getStaticPaths = (() =>
   products.map((product) => ({
@@ -34,7 +34,6 @@ const productLd: Record<string, unknown> = {
   additionalProperty: Object.entries(product.specs).map(([name, value]) => ({ '@type': 'PropertyValue', name, value })),
   name: product.name,
   description: product.description,
-  sku: product.sku,
   image: absImages,
   brand: { '@type': 'Brand', name: product.brand },
   category: category.name,
@@ -83,7 +82,7 @@ const metaPrice = product.price !== null ? ` ${formatPrice(product.price)}.` : '
 
     <div class="product-layout mt-6 grid gap-6 md:grid-cols-2 md:gap-x-10">
       <div class="product-summary">
-        <p class="kicker">{product.brand} · Cód. {product.sku}</p>
+        <p class="kicker">{product.brand}</p>
         <h1 class="product-title page-title mt-2">{product.name}</h1>
         <div class="mt-4 flex items-baseline gap-3">
           {product.price !== null ? (
@@ -97,7 +96,6 @@ const metaPrice = product.price !== null ? ` ${formatPrice(product.price)}.` : '
         <p class="mt-4 text-lg">{product.shortDescription}</p>
         {product.price !== null && product.category === 'escaleras' && (
           <>
-            <p class="mt-3 text-sm text-steel">Envío adicional: CABA {formatPrice(DELIVERY_PRICES.caba)} · AMBA {formatPrice(DELIVERY_PRICES.nearby)} a {formatPrice(DELIVERY_PRICES.amba)}, según dirección.</p>
             <a
               href={whatsappContactUrl(`¡Hola! Quiero consultar medidas, precio final y entrega de ${product.name} en mi localidad (${url}).`)}
               target="_blank"
@@ -216,7 +214,7 @@ const metaPrice = product.price !== null ? ` ${formatPrice(product.price)}.` : '
           </p>
         )}
 
-        <div class="mt-5"><DeliveryOffer /></div>
+        <div class="mt-5"><DeliveryOffer productId={product.id} /></div>
         {product.category === 'escaleras' && <p class="mt-3 text-sm font-semibold">{LADDER_DELIVERY_TIME}</p>}
         <AddToCartButton
           client:load

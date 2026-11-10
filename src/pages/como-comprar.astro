@@ -2,14 +2,16 @@
 import BackLink from '@/components/BackLink.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { LADDER_DELIVERY_TIME } from '@/lib/delivery';
+import { SITE } from '@/lib/site';
+import { whatsappContactUrl } from '@/lib/whatsapp';
 const faqs = [
   {
     q: '¿Cómo compro?',
     a: 'Agregá los productos al carrito, completá tus datos y pagá con Mercado Pago. Si preferís, podés enviarnos el pedido por WhatsApp y lo coordinamos.',
   },
   {
-    q: '¿Hacen envíos?',
-    a: 'Envío a domicilio en toda CABA (Capital Federal) por $15.000 para todo tu pedido. Fuera de CABA, los destinos de AMBA hasta 5 km a la redonda de Obispo San Alberto 3796 también pagan $15.000; el resto de AMBA paga $35.000 por pedido. El radio se mide en línea recta desde esa dirección hasta el domicilio de entrega, no por el recorrido en auto ni por el centro del barrio. La tarifa cercana se aplica a la dirección exacta: puede cubrir una parte de una localidad. El costo se suma al precio de los productos, sin mínimo de compra. Completá tu dirección, localidad y código postal en el carrito para confirmar la tarifa antes de pagar. Coordinamos el día de entrega por WhatsApp. Por ahora vendemos y hacemos envíos únicamente dentro de AMBA; no atendemos pedidos fuera de esta zona. Por el momento, solo ofrecemos envío a domicilio; no hay retiro disponible.',
+    q: '¿Cómo funcionan los envíos y retiros?',
+    a: `Hacemos envíos a domicilio dentro de AMBA. El costo depende de la dirección y de los productos y cantidades del pedido. Ingresá calle y número, localidad y código postal para conocer el importe antes de pagar. Si tu dirección o tu pedido necesitan confirmación, consultanos por WhatsApp. Coordinamos la fecha de entrega por ese medio. ${SITE.pickupLabel}.`,
   },
   {
     q: '¿Cuánto tarda la entrega de una escalera?',
@@ -37,7 +39,7 @@ const ld = {
 
 <BaseLayout
   title="Cómo comprar, envíos y pagos"
-  description="Cómo comprar en Ferralto: venta y envíos solo dentro de AMBA, medios de pago y garantía."
+  description={`Cómo comprar en Ferralto: envíos dentro de AMBA, medios de pago y garantía. ${SITE.pickupLabel}.`}
   jsonLd={ld}
 >
   <div class="container-page max-w-3xl py-12">
@@ -52,6 +54,14 @@ const ld = {
         >
           <summary class="cursor-pointer font-semibold">{f.q}</summary>
           <p class="mt-3 text-steel">{f.a}</p>
+          {i === 1 && (
+            <div class="mt-3 flex flex-wrap gap-x-5 gap-y-2 font-semibold underline">
+              <a href="/calcular-envio">Calculá tu envío →</a>
+              <a href={whatsappContactUrl('¡Hola Ferralto! Quiero coordinar un retiro.')} target="_blank" rel="noopener">
+                Coordiná el retiro por WhatsApp ↗
+              </a>
+            </div>
+          )}
         </details>
       ))}
     </div>

@@ -179,7 +179,7 @@ En el repo: **Settings → Secrets and variables → Actions**. Crear:
 | `MP_WEBHOOK_SECRET`      | Clave secreta del webhook de Mercado Pago                              |
 | `NOTION_TOKEN`           | Token de la integración de Notion                                      |
 | `NOTION_DATABASE_ID`     | ID de la base de pedidos                                               |
-| `SHIPPING_CONFIG_JSON`   | (opcional) tarifas privadas; ver `SHIPPING-OPERATIONS.md`              |
+| `SHIPPING_ORIGIN_JSON`   | Opcional en CI. Reemplaza el origen de Caseros configurado en el flujo de despliegue. Ver `SHIPPING-OPERATIONS.md`. |
 
 Token de Cloudflare: [API Tokens](https://dash.cloudflare.com/profile/api-tokens) → *Create token* →
 plantilla **Edit Cloudflare Workers**. Incluí la zona `ferralto.com` si el token pide permisos de zona.
@@ -215,6 +215,6 @@ en cada push a `main` (`.github/workflows/deploy.yml`).
 - [ ] Cargar precios y stock reales en `catalog.json`
 - [ ] Guardar pedidos (DB o Google Sheets) y descontar stock desde el webhook
 - [ ] Email de confirmación al comprador
-- [ ] Cálculo de envío por código postal
+- [x] Cálculo de envío por domicilio y productos del pedido
 - [ ] Buscador y filtros por precio
 - [ ] Panel / CMS para cargar productos sin tocar código

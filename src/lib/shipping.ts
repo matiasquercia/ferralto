@@ -32,8 +32,6 @@ export interface ShippingEstimate {
   carrier?: string;
   rateId?: string;
   validUntil?: string;
-  /** Informational only. Never use this amount to authorize or total a payment. */
-  reference?: { amount: number; message: string };
 }
 export const DEFAULT_SHIPPING_POLICY: ShippingPolicy = {
   contingencyRate: 0.10, netMarginRate: 0.10, minimumProfit: 1000,

@@ -47,10 +47,11 @@ export function resolveOrderLines(items: unknown) {
     return { ok: false as const, error: 'El carrito está vacío.', status: 400 };
   }
 
-  const lines: ResolvedOrderLine[] = [];
+  if (items.length > 200) return { ok: false as const, error: 'El pedido tiene demasiados artículos.', status: 400 };
+  const byLine = new Map<string, ResolvedOrderLine>();
   for (const line of items as OrderLineInput[]) {
     const product = getProductById(line?.id);
-    const quantity = Math.floor(Number(line?.quantity));
+    const quantity = line?.quantity;
     if (!product) return { ok: false as const, error: `Producto inexistente: ${line?.id}`, status: 400 };
     if (product.price === null) {
       return {
@@ -59,28 +60,31 @@ export function resolveOrderLines(items: unknown) {
         status: 400,
       };
     }
-    if (!Number.isFinite(quantity) || quantity < 1) {
+    if (!Number.isSafeInteger(quantity) || quantity < 1) {
       return { ok: false as const, error: 'Cantidad inválida.', status: 400 };
-    }
-    if (quantity > maxQuantity(product)) {
-      return { ok: false as const, error: `No hay stock suficiente de "${product.name}".`, status: 409 };
     }
     if (product.colors.length > 1 && !product.colors.includes(line.variant ?? '')) {
       return { ok: false as const, error: `Elegí un color válido para "${product.name}".`, status: 400 };
     }
     const variant = product.colors.length > 1 ? line.variant : undefined;
-    lines.push({
-      id: variant ? `${product.id}::${variant}` : product.id,
+    const id = variant ? `${product.id}::${variant}` : product.id;
+    const combined = quantity + (byLine.get(id)?.quantity ?? 0);
+    if (combined > maxQuantity(product)) {
+      return { ok: false as const, error: `No hay stock suficiente de "${product.name}".`, status: 409 };
+    }
+    byLine.set(id, {
+      id,
       sku: product.sku,
       name: product.name,
       variant,
-      quantity,
+      quantity: combined,
       unitPrice: product.price,
       image: product.images[0],
       category: product.category,
       shortDescription: product.shortDescription,
     });
   }
+  const lines = [...byLine.values()];
 
   const total = lines.reduce((sum, line) => sum + line.unitPrice * line.quantity, 0);
   return { ok: true as const, lines, total };
@@ -139,7 +143,7 @@ export async function buildOrder(input: { items: unknown; buyer: unknown; channe
   const linesResult = resolveOrderLines(input.items);
   if (!linesResult.ok) return linesResult;
 
-  const shipping = shippingForOrder(linesResult.lines, buyerResult.buyer.postalCode, normalizedLocality, address.match);
+  const shipping = shippingForOrder(linesResult.lines, address.match);
   if (input.channel === 'mercadopago') {
     const authorized = authorizeCheckoutShipping(shipping, input.shippingAmount);
     if (!authorized.ok) return authorized;

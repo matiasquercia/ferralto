@@ -7,7 +7,7 @@ interface ImportMetaEnv {
   readonly MP_WEBHOOK_SECRET?: string;
   readonly NOTION_TOKEN?: string;
   readonly NOTION_DATABASE_ID?: string;
-  readonly SHIPPING_CONFIG_JSON?: string;
+  readonly SHIPPING_ORIGIN_JSON?: string;
 }
 interface ImportMeta {
   readonly env: ImportMetaEnv;

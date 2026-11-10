@@ -53,7 +53,6 @@
         "Estructura": "Tubo de acero de 1\"",
         "Escalones": "Placa plástica antideslizante",
         "Colores": "Negro brillante",
-        "Código Safari": "2012",
         "Peso": "2,96 kg"
       }
     },
@@ -100,8 +99,7 @@
         "Profundidad cerrada": "7 cm",
         "Estructura": "Tubo de acero 0,9 mm (1 1/4\" y 1\")",
         "Terminación": "Anticorrosivo + pintura epoxi",
-        "Colores": "Blanco / negro brillante",
-        "Código Safari": "2002"
+        "Colores": "Blanco / negro brillante"
       },
       "imagesByColor": {
         "Blanco brillante": [
@@ -167,8 +165,7 @@
         "Profundidad cerrada": "7 cm",
         "Estructura": "Tubo de acero 0,9 mm (1 1/4\" y 1\")",
         "Terminación": "Anticorrosivo + pintura epoxi",
-        "Colores": "Blanco / negro brillante",
-        "Código Safari": "2003"
+        "Colores": "Blanco / negro brillante"
       },
       "imagesByColor": {
         "Blanco brillante": [
@@ -236,8 +233,7 @@
         "Profundidad cerrada": "7 cm",
         "Estructura": "Tubo de acero 0,9 mm (1 1/4\" y 1\")",
         "Terminación": "Anticorrosivo + pintura epoxi",
-        "Colores": "Blanco / negro brillante",
-        "Código Safari": "2004"
+        "Colores": "Blanco / negro brillante"
       },
       "imagesByColor": {
         "Blanco brillante": [
@@ -306,8 +302,7 @@
         "Profundidad cerrada": "7 cm",
         "Estructura": "Tubo de acero 0,9 mm (1 1/4\" y 1\")",
         "Terminación": "Anticorrosivo + pintura epoxi",
-        "Colores": "Blanco / negro brillante",
-        "Código Safari": "2005"
+        "Colores": "Blanco / negro brillante"
       },
       "imagesByColor": {
         "Blanco brillante": [
@@ -376,8 +371,7 @@
         "Profundidad cerrada": "7 cm",
         "Estructura": "Tubo de acero 0,9 mm (1 1/4\" y 1\")",
         "Terminación": "Anticorrosivo + pintura epoxi",
-        "Colores": "Blanco / negro brillante",
-        "Código Safari": "2006"
+        "Colores": "Blanco / negro brillante"
       },
       "imagesByColor": {
         "Blanco brillante": [
@@ -444,8 +438,7 @@
         "Profundidad cerrada": "7 cm",
         "Estructura": "Tubo de acero 0,9 mm (1 1/4\" y 1\")",
         "Terminación": "Anticorrosivo + pintura epoxi",
-        "Colores": "Blanco / negro brillante",
-        "Código Safari": "2007"
+        "Colores": "Blanco / negro brillante"
       },
       "imagesByColor": {
         "Blanco brillante": [
@@ -504,7 +497,6 @@
         "Peso": "4,6 kg",
         "Medidas cerrada": "0,64 x 0,38 x 0,34 m",
         "Medidas abierta": "0,64 x 0,38 x 0,60 m",
-        "Código Safari": "2001",
         "Colores": "Blanco / negro brillante"
       },
       "imagesByColor": {
@@ -556,8 +548,7 @@
         "Escalones": "Placas plásticas antideslizantes",
         "Peso": "5,42 kg",
         "Medidas cerrada": "0,64 x 0,38 x 0,34 m",
-        "Medidas abierta": "0,64 x 0,38 x 0,63 m",
-        "Código Safari": "2011"
+        "Medidas abierta": "0,64 x 0,38 x 0,63 m"
       }
     },
     {
@@ -583,8 +574,7 @@
         "Base": "Caño de 5/8\"",
         "Parrilla": "9 alambres de 4 mm x 1000 mm",
         "Capacidad": "9 m",
-        "Color": "Blanco",
-        "Código Safari": "1010"
+        "Color": "Blanco"
       }
     },
     {
@@ -611,8 +601,7 @@
         "Parrilla": "9 alambres de 4 mm x 1000 mm",
         "Alas": "2 alas de alambre de 4 hilos c/u",
         "Capacidad": "12,60 m",
-        "Color": "Blanco",
-        "Código Safari": "1011"
+        "Color": "Blanco"
       }
     },
     {
@@ -639,8 +628,7 @@
         "Parrilla": "9 alambres de 4 mm x 1000 mm",
         "Alas": "2 alas de caño 5/8\" con 7 hilos c/u",
         "Capacidad": "14,80 m",
-        "Color": "Blanco",
-        "Código Safari": "1012"
+        "Color": "Blanco"
       }
     },
     {
@@ -663,8 +651,7 @@
       "specs": {
         "Estructura": "Chapa D.D. con anticorrosivo y pintura epoxi",
         "Varillas": "7 varillas de acero plastificadas, 6 mm x 45 cm",
-        "Envase": "Polietileno termocontraíble",
-        "Código Safari": "1051"
+        "Envase": "Polietileno termocontraíble"
       }
     },
     {
@@ -687,8 +674,157 @@
       "specs": {
         "Estructura": "Chapa D.D. con anticorrosivo y pintura epoxi",
         "Varillas": "7 varillas de acero plastificadas, 6 mm x 60 cm",
-        "Envase": "Polietileno termocontraíble",
-        "Código Safari": "1052"
+        "Envase": "Polietileno termocontraíble"
+      }
+    },
+    {
+      "id": "SAF-1053",
+      "slug": "tender-extensible-de-pared-80x7",
+      "sku": "SAF-1053",
+      "name": "Tender extensible de pared 80x7",
+      "brand": "Safari",
+      "category": "tenders",
+      "price": 27646,
+      "compareAtPrice": null,
+      "stock": null,
+      "featured": false,
+      "colors": [
+        "Blanco"
+      ],
+      "images": [
+        "/images/productos/tender-extensible-de-pared-80x7-1.webp"
+      ],
+      "shortDescription": "Tender de pared de 80 cm con 7 varillas. Se recoge al terminar de usarlo.",
+      "description": "Tender extensible Safari de 80 cm con 7 varillas de acero. Se monta en la pared y se pliega para liberar espacio entre usos.",
+      "specs": {
+        "Varillas": "7 varillas de acero de 80 cm",
+        "Colocación": "Pared",
+        "Color": "Blanco"
+      }
+    },
+    {
+      "id": "SAF-1054",
+      "slug": "tender-extensible-de-pared-100x7",
+      "sku": "SAF-1054",
+      "name": "Tender extensible de pared 100x7",
+      "brand": "Safari",
+      "category": "tenders",
+      "price": 31231,
+      "compareAtPrice": null,
+      "stock": null,
+      "featured": false,
+      "colors": [
+        "Blanco"
+      ],
+      "images": [
+        "/images/productos/tender-extensible-de-pared-100x7-1.webp"
+      ],
+      "shortDescription": "Tender de pared de 100 cm con 7 varillas. Se recoge al terminar de usarlo.",
+      "description": "Tender extensible Safari de 100 cm con 7 varillas de acero. Se monta en la pared y se pliega para liberar espacio entre usos.",
+      "specs": {
+        "Varillas": "7 varillas de acero de 100 cm",
+        "Colocación": "Pared",
+        "Color": "Blanco"
+      }
+    },
+    {
+      "id": "SAF-1001",
+      "slug": "tender-extensible-de-pared-45x9",
+      "sku": "SAF-1001",
+      "name": "Tender extensible de pared 45x9",
+      "brand": "Safari",
+      "category": "tenders",
+      "price": 28510,
+      "compareAtPrice": null,
+      "stock": null,
+      "featured": false,
+      "colors": [
+        "Blanco"
+      ],
+      "images": [
+        "/images/productos/tender-extensible-de-pared-45x9-1.webp"
+      ],
+      "shortDescription": "Tender de pared de 45 cm con 9 varillas. Se recoge al terminar de usarlo.",
+      "description": "Tender extensible Safari de 45 cm con 9 varillas de acero. Se monta en la pared y se pliega para liberar espacio entre usos.",
+      "specs": {
+        "Varillas": "9 varillas de acero de 45 cm",
+        "Colocación": "Pared",
+        "Color": "Blanco"
+      }
+    },
+    {
+      "id": "SAF-1002",
+      "slug": "tender-extensible-de-pared-60x9",
+      "sku": "SAF-1002",
+      "name": "Tender extensible de pared 60x9",
+      "brand": "Safari",
+      "category": "tenders",
+      "price": 31793,
+      "compareAtPrice": null,
+      "stock": null,
+      "featured": false,
+      "colors": [
+        "Blanco"
+      ],
+      "images": [
+        "/images/productos/tender-extensible-de-pared-60x9-1.webp"
+      ],
+      "shortDescription": "Tender de pared de 60 cm con 9 varillas. Se recoge al terminar de usarlo.",
+      "description": "Tender extensible Safari de 60 cm con 9 varillas de acero. Se monta en la pared y se pliega para liberar espacio entre usos.",
+      "specs": {
+        "Varillas": "9 varillas de acero de 60 cm",
+        "Colocación": "Pared",
+        "Color": "Blanco"
+      }
+    },
+    {
+      "id": "SAF-1003",
+      "slug": "tender-extensible-de-pared-80x9",
+      "sku": "SAF-1003",
+      "name": "Tender extensible de pared 80x9",
+      "brand": "Safari",
+      "category": "tenders",
+      "price": 35421,
+      "compareAtPrice": null,
+      "stock": null,
+      "featured": false,
+      "colors": [
+        "Blanco"
+      ],
+      "images": [
+        "/images/productos/tender-extensible-de-pared-80x9-1.webp"
+      ],
+      "shortDescription": "Tender de pared de 80 cm con 9 varillas. Se recoge al terminar de usarlo.",
+      "description": "Tender extensible Safari de 80 cm con 9 varillas de acero. Se monta en la pared y se pliega para liberar espacio entre usos.",
+      "specs": {
+        "Varillas": "9 varillas de acero de 80 cm",
+        "Colocación": "Pared",
+        "Color": "Blanco"
+      }
+    },
+    {
+      "id": "SAF-1004",
+      "slug": "tender-extensible-de-pared-100x9",
+      "sku": "SAF-1004",
+      "name": "Tender extensible de pared 100x9",
+      "brand": "Safari",
+      "category": "tenders",
+      "price": 39742,
+      "compareAtPrice": null,
+      "stock": null,
+      "featured": false,
+      "colors": [
+        "Blanco"
+      ],
+      "images": [
+        "/images/productos/tender-extensible-de-pared-100x9-1.webp"
+      ],
+      "shortDescription": "Tender de pared de 100 cm con 9 varillas. Se recoge al terminar de usarlo.",
+      "description": "Tender extensible Safari de 100 cm con 9 varillas de acero. Se monta en la pared y se pliega para liberar espacio entre usos.",
+      "specs": {
+        "Varillas": "9 varillas de acero de 100 cm",
+        "Colocación": "Pared",
+        "Color": "Blanco"
       }
     },
     {
@@ -710,10 +846,9 @@
         "/images/productos/tabla-de-planchar-basica-4.jpg"
       ],
       "shortDescription": "Tabla de planchar Safari, modelo Básica.",
-      "description": "Tabla de planchar Safari modelo Básica (código 2501). Consultanos por WhatsApp medidas y detalles.",
+      "description": "Tabla de planchar Safari modelo Básica. Consultanos por WhatsApp medidas y detalles.",
       "specs": {
-        "Modelo": "Básica",
-        "Código Safari": "2501"
+        "Modelo": "Básica"
       }
     },
     {
@@ -735,10 +870,9 @@
         "/images/productos/tabla-de-planchar-esencial-4.jpg"
       ],
       "shortDescription": "Tabla de planchar Safari, modelo Esencial.",
-      "description": "Tabla de planchar Safari modelo Esencial (código 2502). Consultanos por WhatsApp medidas y detalles.",
+      "description": "Tabla de planchar Safari modelo Esencial. Consultanos por WhatsApp medidas y detalles.",
       "specs": {
-        "Modelo": "Esencial",
-        "Código Safari": "2502"
+        "Modelo": "Esencial"
       }
     },
     {
@@ -760,10 +894,9 @@
         "/images/productos/tabla-de-planchar-premier-4.jpg"
       ],
       "shortDescription": "Tabla de planchar Safari, modelo Premier.",
-      "description": "Tabla de planchar Safari modelo Premier (código 2540). Consultanos por WhatsApp medidas y detalles.",
+      "description": "Tabla de planchar Safari modelo Premier. Consultanos por WhatsApp medidas y detalles.",
       "specs": {
-        "Modelo": "Premier",
-        "Código Safari": "2540"
+        "Modelo": "Premier"
       }
     },
     {
@@ -785,20 +918,19 @@
         "/images/productos/tabla-de-planchar-silver-4.jpg"
       ],
       "shortDescription": "Tabla de planchar Safari, modelo Silver.",
-      "description": "Tabla de planchar Safari modelo Silver (código 2550). Consultanos por WhatsApp medidas y detalles.",
+      "description": "Tabla de planchar Safari modelo Silver. Consultanos por WhatsApp medidas y detalles.",
       "specs": {
-        "Modelo": "Silver",
-        "Código Safari": "2550"
+        "Modelo": "Silver"
       }
     },
     {
-      "id": "SAF-AGARRADERA",
-      "slug": "agarradera-de-seguridad",
-      "sku": "SAF-AGARRADERA",
-      "name": "Agarradera de seguridad",
+      "id": "SAF-5025",
+      "slug": "agarradera-de-seguridad-25-cm",
+      "sku": "SAF-5025",
+      "name": "Agarradera de seguridad Safari 25 cm",
       "brand": "Safari",
       "category": "agarraderas",
-      "price": null,
+      "price": 7645,
       "compareAtPrice": null,
       "stock": null,
       "featured": false,
@@ -806,12 +938,91 @@
         "Blanco brillante"
       ],
       "images": [
-        "/images/productos/agarradera-de-seguridad-1.jpg"
+        "/images/productos/agarradera-de-seguridad-25-cm-1.webp"
       ],
-      "shortDescription": "Caño de 1\" con pintura epoxi blanca. Incluye tornillos y tarugos.",
-      "description": "Agarradera de seguridad construida con caño de 1\". Tratamiento anticorrosivo y pintura epoxi blanco brillante. Viene con los tornillos y tarugos necesarios para su instalación.",
+      "shortDescription": "Agarradera de pared de acero de 25 cm, con tornillos y tarugos incluidos.",
+      "description": "Agarradera Safari de acero con tubo de 1 pulgada y acabado epoxi blanco brillante. Incluye tornillos y tarugos. Verificá que el largo y la fijación sean adecuados para tu pared.",
       "specs": {
-        "Material": "Caño de acero de 1\"",
+        "Largo": "25 cm",
+        "Material": "Caño de acero de 1 pulgada",
+        "Terminación": "Anticorrosivo + epoxi blanco brillante",
+        "Incluye": "Tornillos y tarugos"
+      }
+    },
+    {
+      "id": "SAF-5035",
+      "slug": "agarradera-de-seguridad-35-cm",
+      "sku": "SAF-5035",
+      "name": "Agarradera de seguridad Safari 35 cm",
+      "brand": "Safari",
+      "category": "agarraderas",
+      "price": 8121,
+      "compareAtPrice": null,
+      "stock": null,
+      "featured": false,
+      "colors": [
+        "Blanco brillante"
+      ],
+      "images": [
+        "/images/productos/agarradera-de-seguridad-35-cm-1.webp"
+      ],
+      "shortDescription": "Agarradera de pared de acero de 35 cm, con tornillos y tarugos incluidos.",
+      "description": "Agarradera Safari de acero con tubo de 1 pulgada y acabado epoxi blanco brillante. Incluye tornillos y tarugos. Verificá que el largo y la fijación sean adecuados para tu pared.",
+      "specs": {
+        "Largo": "35 cm",
+        "Material": "Caño de acero de 1 pulgada",
+        "Terminación": "Anticorrosivo + epoxi blanco brillante",
+        "Incluye": "Tornillos y tarugos"
+      }
+    },
+    {
+      "id": "SAF-5045",
+      "slug": "agarradera-de-seguridad-45-cm",
+      "sku": "SAF-5045",
+      "name": "Agarradera de seguridad Safari 45 cm",
+      "brand": "Safari",
+      "category": "agarraderas",
+      "price": 8812,
+      "compareAtPrice": null,
+      "stock": null,
+      "featured": false,
+      "colors": [
+        "Blanco brillante"
+      ],
+      "images": [
+        "/images/productos/agarradera-de-seguridad-45-cm-1.webp"
+      ],
+      "shortDescription": "Agarradera de pared de acero de 45 cm, con tornillos y tarugos incluidos.",
+      "description": "Agarradera Safari de acero con tubo de 1 pulgada y acabado epoxi blanco brillante. Incluye tornillos y tarugos. Verificá que el largo y la fijación sean adecuados para tu pared.",
+      "specs": {
+        "Largo": "45 cm",
+        "Material": "Caño de acero de 1 pulgada",
+        "Terminación": "Anticorrosivo + epoxi blanco brillante",
+        "Incluye": "Tornillos y tarugos"
+      }
+    },
+    {
+      "id": "SAF-5055",
+      "slug": "agarradera-de-seguridad-55-cm",
+      "sku": "SAF-5055",
+      "name": "Agarradera de seguridad Safari 55 cm",
+      "brand": "Safari",
+      "category": "agarraderas",
+      "price": 9615,
+      "compareAtPrice": null,
+      "stock": null,
+      "featured": false,
+      "colors": [
+        "Blanco brillante"
+      ],
+      "images": [
+        "/images/productos/agarradera-de-seguridad-55-cm-1.webp"
+      ],
+      "shortDescription": "Agarradera de pared de acero de 55 cm, con tornillos y tarugos incluidos.",
+      "description": "Agarradera Safari de acero con tubo de 1 pulgada y acabado epoxi blanco brillante. Incluye tornillos y tarugos. Verificá que el largo y la fijación sean adecuados para tu pared.",
+      "specs": {
+        "Largo": "55 cm",
+        "Material": "Caño de acero de 1 pulgada",
         "Terminación": "Anticorrosivo + epoxi blanco brillante",
         "Incluye": "Tornillos y tarugos"
       }

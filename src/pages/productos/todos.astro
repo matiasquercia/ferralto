@@ -7,7 +7,7 @@ import { categories, products } from '@/lib/catalog';
 
 <BaseLayout
   title="Todos los productos"
-  description="Catálogo de Ferralto: escaleras, tenders, banquetas, tablas de planchar y ferretería. Envío a domicilio en CABA y AMBA cercano por $15.000; resto de AMBA por $35.000. Consultá cobertura."
+  description="Catálogo de Ferralto: escaleras, tenders, banquetas, tablas de planchar y ferretería. Calculá el envío a tu domicilio en AMBA."
 >
   <div class="container-page py-10">
     <Breadcrumbs
@@ -17,6 +17,7 @@ import { categories, products } from '@/lib/catalog';
       ]}
     />
     <h1 class="page-title mt-4">Todos los productos</h1>
+    <a class="btn-dark mt-4" href="/calcular-envio">Calculá tu envío →</a>
     <div class="mt-6 flex flex-wrap gap-2" data-category-filters>
       {categories.map((c) => (
         <button

@@ -22,7 +22,7 @@ async function run({ valid = true, backupFails = false, repeat = false } = {}) {
     fetch: async (...args) => { requests.push(args); if (backupFails) throw Error('offline backup'); return {}; },
     payload: () => ({ name: 'Private buyer' }), items: [], buyer: {}, shipping: null,
     track: (name, params) => { events.push([name, JSON.parse(JSON.stringify(params))]); },
-    buildWhatsAppOrderUrl: () => 'https://wa.me/5491131008720?text=order', window: { location },
+    buildWhatsAppOrderUrl: () => 'https://wa.me/5491130095909?text=order', window: { location },
   };
   const execute = vm.runInNewContext(`(${handler})`, context);
   await execute();

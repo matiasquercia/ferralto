@@ -17,7 +17,6 @@ export function buildWhatsAppOrderUrl(items: CartItem[], buyer?: Buyer, shipping
     '',
     `Productos: ${formatPrice(total)}`,
     shipping?.amount != null ? `Envío estimado: ${formatPrice(shipping.amount)}` : 'Envío: a cotizar antes del pago.',
-    shipping?.status === 'quote_required' && shipping.reference ? `Referencia orientativa de envío: ${formatPrice(shipping.reference.amount)}. Solicito confirmar el precio final.` : '',
     shipping?.amount != null ? `*Total estimado con envío: ${formatPrice(total + shipping.amount)}*` : '*Solicito el costo de envío y el total final antes de pagar.*',
     buyer?.name ? `\nNombre: ${buyer.name}` : '',
     buyer?.email ? `Email: ${buyer.email}` : '',

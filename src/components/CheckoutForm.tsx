@@ -15,8 +15,7 @@ import { lineKey, $cart, $cartTotal, removeFromCart, setQuantity } from '@/lib/c
 import { formatPrice } from '@/lib/format';
 import { productImage } from '@/lib/images';
 import { buildWhatsAppOrderUrl } from '@/lib/whatsapp';
-import type { ShippingEstimate } from '@/lib/shipping';
-import DeliveryOffer from './DeliveryOffer';
+import { useShippingQuote } from './useShippingQuote';
 
 const DRAFT_KEY = 'ferrato:buyer';
 const inputBase =
@@ -58,32 +57,12 @@ export default function CheckoutForm() {
   const localityRef = useRef<HTMLInputElement>(null);
   const lookupTimer = useRef<number>(0);
   const suggestAbort = useRef<AbortController | null>(null);
-  const [shippingResult, setShippingResult] = useState<{ key: string; estimate: ShippingEstimate; subtotal: number } | null>(null);
-  const [shippingBusy, setShippingBusy] = useState(false);
-  const [shippingError, setShippingError] = useState('');
   const [payProductsOnly, setPayProductsOnly] = useState(false);
-  const shippingKey = JSON.stringify([items.map((i) => [i.id, i.variant, i.quantity]), buyer.street.trim(), buyer.postalCode.trim(), buyer.locality.trim()]);
-  const shipping = shippingResult?.key === shippingKey && shippingResult.subtotal === total ? shippingResult.estimate : null;
+  const quote = useShippingQuote(items, buyer, mounted);
+  const shipping = quote.data?.subtotal === total ? quote.data.shipping ?? null : null;
+  const shippingBusy = quote.busy;
+  const shippingError = quote.data?.error;
   const canPayMercadoPago = shipping?.amount != null || (payProductsOnly && shipping?.status === 'quote_required');
-
-  const calculateShipping = async () => {
-    const destinationError = streetFormatError(buyer.street) || postalCodeError(buyer.postalCode) || localityFormatError(buyer.locality);
-    if (destinationError) { setShippingError(destinationError); setShippingResult(null); return; }
-    setShippingBusy(true);
-    setShippingError('');
-    setShippingResult(null);
-    const key = shippingKey;
-    try {
-      const res = await fetch('/api/shipping', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: items.map((i) => ({ id: i.id, variant: i.variant, quantity: i.quantity })), street: buyer.street, postalCode: buyer.postalCode, locality: buyer.locality }),
-      });
-      const data = await res.json();
-      if (!res.ok || !data.shipping) throw new Error(data.error ?? 'No pudimos calcular el envío.');
-      setShippingResult({ key, estimate: data.shipping, subtotal: data.subtotal });
-    } catch (err) { setShippingError(err instanceof Error ? err.message : 'Consultá el envío por WhatsApp.'); }
-    finally { setShippingBusy(false); }
-  };
 
   useEffect(() => {
     setBuyer(loadDraft());
@@ -101,16 +80,7 @@ export default function CheckoutForm() {
 
   useEffect(() => {
     setPayProductsOnly(false);
-  }, [shippingKey]);
-
-  useEffect(() => {
-    if (!mounted || items.length === 0) return;
-    if (streetFormatError(buyer.street) || postalCodeError(buyer.postalCode) || localityFormatError(buyer.locality)) return;
-    const timer = window.setTimeout(() => {
-      void calculateShipping();
-    }, 400);
-    return () => window.clearTimeout(timer);
-  }, [shippingKey, mounted, items.length]);
+  }, [quote.key]);
 
   if (!mounted) return <p className="py-16 text-center text-steel">Cargando carrito…</p>;
 
@@ -616,7 +586,7 @@ export default function CheckoutForm() {
               </p>
             ) : (
               <p id="phone-hint" className="mt-1 text-xs text-steel">
-                Con código de área, por ejemplo 11 3100 8720.
+                Con código de área, por ejemplo 11 2345 6789.
               </p>
             )}
           </div>
@@ -845,14 +815,12 @@ export default function CheckoutForm() {
 
           <section aria-labelledby="shipping-title" className="rounded-xl border border-stone-200 bg-stone-50 p-4">
             <h2 id="shipping-title" className="font-semibold">Costo de envío</h2>
-            <div className="mt-3"><DeliveryOffer /></div>
             <p className="mt-3 text-sm">Completá calle y número, localidad y código postal para confirmar la tarifa. Por ahora entregamos solo dentro de AMBA.</p>
-            <button type="button" className="btn-dark mt-3 w-full" disabled={shippingBusy || !buyer.street.trim() || !buyer.locality.trim() || !buyer.postalCode.trim()} onClick={calculateShipping}>
-              {shippingBusy ? 'Consultando…' : 'Consultar costo de envío'}
+            <button type="button" className="btn-dark mt-3 w-full" disabled={shippingBusy || !quote.ready} onClick={quote.retry}>
+              {shippingBusy ? 'Calculando…' : 'Calcular envío'}
             </button>
             <p role="status" className="mt-3 text-sm">{shippingError || shipping?.message || 'La tarifa se aplica a todo tu pedido y se suma al precio de los productos. Coordinamos el día de entrega por WhatsApp.'}</p>
             {shipping?.amount != null && <p className="mt-2 font-semibold">Costo de envío: {formatPrice(shipping.amount)}</p>}
-            {shipping?.status === 'quote_required' && shipping.reference && <div className="mt-3 rounded-lg border border-orange-200 bg-orange-50 p-3"><p className="font-semibold">Envío orientativo: {formatPrice(shipping.reference.amount)}</p><p className="mt-1 text-sm">{shipping.reference.message}</p></div>}
             {shipping?.status === 'quote_required' && (
               <label className="mt-3 flex min-h-11 cursor-pointer items-start gap-3 rounded-lg border border-stone-200 bg-white p-3 text-sm">
                 <input

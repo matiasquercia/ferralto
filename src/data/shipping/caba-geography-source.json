@@ -1,0 +1,13 @@
+{
+  "publisher": "Gobierno de la Ciudad Autónoma de Buenos Aires · Buenos Aires Data",
+  "consulted": "2026-10-16",
+  "portalUpdated": "2026-07-29",
+  "crs": "CRS84 / longitude, latitude",
+  "license": "CC-BY-2.5-AR",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.5/ar/",
+  "perimeterPage": "https://data.buenosaires.gob.ar/es_AR/dataset/perimetro",
+  "perimeterDownload": "https://cdn.buenosaires.gob.ar/datosabiertos/datasets/innovacion-transformacion-digital/perimetro/perimetro.geojson",
+  "neighborhoodsPage": "https://data.buenosaires.gob.ar/dataset/barrios",
+  "neighborhoodsDownload": "https://cdn.buenosaires.gob.ar/datosabiertos/datasets/innovacion-transformacion-digital/barrios/barrios.geojson",
+  "transformation": "Se conservan el perímetro de CABA y los nombres y geometrías de los 17 barrios elegibles. No se simplifican ni redondean vértices."
+}

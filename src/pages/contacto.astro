@@ -1,0 +1,33 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SITE } from '@/lib/site';
+import { whatsappContactUrl } from '@/lib/whatsapp';
+
+const whatsappNumber = SITE.whatsapp.replace(/^549(\d{2})(\d{4})(\d{4})$/, '$1 $2-$3');
+---
+
+<BaseLayout title="Contacto" description="Contactá a Ferralto para consultas sobre productos, disponibilidad y pedidos.">
+  <div class="container-page max-w-3xl py-12 sm:py-16">
+    <p class="kicker">Contacto</p>
+    <h1 class="page-title mt-3">Atención al cliente</h1>
+    <p class="mt-4 text-steel">Consultas sobre productos, disponibilidad y pedidos.</p>
+
+    <div class="mt-8 divide-y divide-stone-200 rounded-xl border border-stone-200 bg-white">
+      <section aria-labelledby="whatsapp-title" class="flex flex-col gap-5 p-6 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+        <div>
+          <h2 id="whatsapp-title" class="text-sm font-semibold text-steel">WhatsApp</h2>
+          <p class="mt-1 text-2xl font-semibold tabular-nums">{whatsappNumber}</p>
+        </div>
+        <a class="btn-primary self-start sm:self-center" href={whatsappContactUrl()} target="_blank" rel="noopener">
+          Contactar por WhatsApp
+        </a>
+      </section>
+      <section aria-labelledby="email-title" class="p-6 sm:px-8">
+        <h2 id="email-title" class="text-sm font-semibold text-steel">Correo electrónico</h2>
+        <a class="mt-1 inline-block text-lg font-semibold underline underline-offset-4 hover:text-brand-700" href={`mailto:${SITE.email}`}>
+          {SITE.email}
+        </a>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

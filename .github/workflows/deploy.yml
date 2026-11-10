@@ -27,7 +27,7 @@ jobs:
       - run: npm run build
         env:
           PUBLIC_SITE_URL: https://ferralto.com
-          PUBLIC_WHATSAPP_NUMBER: '5491131008720'
+          PUBLIC_WHATSAPP_NUMBER: '5491130095909'
       - name: Check Cloudflare credentials
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -45,7 +45,8 @@ jobs:
           MP_WEBHOOK_SECRET: ${{ secrets.MP_WEBHOOK_SECRET }}
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
-          SHIPPING_CONFIG_JSON: ${{ secrets.SHIPPING_CONFIG_JSON }}
+          SHIPPING_ORIGIN_JSON: >-
+            ${{ secrets.SHIPPING_ORIGIN_JSON || '{"point":{"lat":-34.61614928297872,"lon":-58.567257974468085},"confirmation":"Punto de Caseros probado en la demo y confirmado para producción el 2026-11-10"}' }}
         run: |
           put() {
             local name="$1"
@@ -60,7 +61,7 @@ jobs:
           put MP_WEBHOOK_SECRET "$MP_WEBHOOK_SECRET"
           put NOTION_TOKEN "$NOTION_TOKEN"
           put NOTION_DATABASE_ID "$NOTION_DATABASE_ID"
-          put SHIPPING_CONFIG_JSON "$SHIPPING_CONFIG_JSON"
+          put SHIPPING_ORIGIN_JSON "$SHIPPING_ORIGIN_JSON"
       - name: Deploy Worker
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

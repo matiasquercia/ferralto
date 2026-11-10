@@ -48,7 +48,7 @@ const year = new Date().getFullYear();
         </li>
         <li>
           <a class="hover:text-brand-300" href="/como-comprar#envios">
-            Envíos
+            Envíos y retiros
           </a>
         </li>
         <li>
@@ -59,12 +59,15 @@ const year = new Date().getFullYear();
       </ul>
     </nav>
     <nav aria-label="Contacto del pie de página">
-      <p class="font-semibold text-white">Contacto</p>
+      <p class="font-semibold text-white"><a class="hover:text-brand-300" href="/contacto">Contacto</a></p>
       <ul class="mt-3 space-y-2 text-sm">
         <li>
           <a class="hover:text-brand-300" href={whatsappContactUrl()} target="_blank" rel="noopener">
-            WhatsApp
+            Contactar por WhatsApp
           </a>
+        </li>
+        <li>
+          <a class="hover:text-brand-300" href={`mailto:${SITE.email}`}>{SITE.email}</a>
         </li>
       </ul>
     </nav>

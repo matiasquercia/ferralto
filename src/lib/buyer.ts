@@ -98,7 +98,7 @@ export function validateBuyerField(field: BuyerField, buyer: Buyer): string | nu
   if (field === 'phone') {
     const digits = phoneDigits(value);
     if (digits.length < 10 || digits.length > 13) {
-      return 'Ingresá un teléfono con código de área, por ejemplo 11 3100 8720.';
+      return 'Ingresá un teléfono con código de área, por ejemplo 11 2345 6789.';
     }
     return null;
   }

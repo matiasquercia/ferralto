@@ -27,6 +27,7 @@ const GEOREF_HEADERS = {
   Accept: 'application/json',
   'User-Agent': 'Ferralto (https://www.ferralto.com)',
 };
+const lookupTimeoutMs = 6500;
 
 type StreetRow = {
   id?: string;
@@ -403,7 +404,12 @@ export function matchToSuggestion(match: AddressMatch): AddressSuggestion {
 }
 
 async function georefGet<T>(path: string, params: URLSearchParams): Promise<T> {
-  const response = await fetch(`${GEOREF_BASE}/${path}?${params}`, { headers: GEOREF_HEADERS });
+  const url = `${GEOREF_BASE}/${path}?${params}`;
+  const request = () => fetch(url, { headers: GEOREF_HEADERS, signal: AbortSignal.timeout(lookupTimeoutMs) });
+  const firstResponse = await request().catch(() => undefined);
+  const response = firstResponse && ![502, 503, 504].includes(firstResponse.status)
+    ? firstResponse
+    : await request();
   if (!response.ok) throw new Error(`Georef ${response.status}`);
   return response.json() as Promise<T>;
 }
@@ -529,7 +535,9 @@ export async function verifyAddress(street: string, locality: string) {
   if (localityError) return { ok: false as const, error: localityError, matches: [] as AddressMatch[] };
   try {
     const query = composeAddressQuery(street, locality);
-    const matches = await lookupAddress(query);
+    const { number } = splitStreetAndNumber(street);
+    if (!number) return { ok: false as const, error: 'Indicá el número de la calle.', matches: [] as AddressMatch[] };
+    const matches = (await lookupAddress(query)).filter((match) => match.number === Number(number));
     const resolved = resolveAddress(query, matches);
     if (!resolved.ok) return resolved;
     return { ok: true as const, match: resolved.match, matches };
@@ -596,6 +604,7 @@ async function lookupNominatimPostal(digits: string): Promise<PostalPlace[]> {
   });
   const response = await fetch(`https://nominatim.openstreetmap.org/search?${params}`, {
     headers: GEOREF_HEADERS,
+    signal: AbortSignal.timeout(lookupTimeoutMs),
   });
   if (!response.ok) throw new Error(`Nominatim ${response.status}`);
   const rows = (await response.json()) as NominatimRow[];
@@ -613,6 +622,7 @@ async function lookupNominatimPostal(digits: string): Promise<PostalPlace[]> {
 async function lookupZippopotamPostal(digits: string): Promise<PostalPlace[]> {
   const response = await fetch(`https://api.zippopotam.us/AR/${digits}`, {
     headers: { Accept: 'application/json' },
+    signal: AbortSignal.timeout(lookupTimeoutMs),
   });
   if (response.status === 404) return [];
   if (!response.ok) throw new Error(`Zippopotam ${response.status}`);

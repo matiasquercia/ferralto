@@ -1,0 +1,13 @@
+---
+import ShippingCalculator from '@/components/ShippingCalculator';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Calculá tu envío" description="Consultá el costo de entrega de tus productos Ferralto a una dirección en AMBA.">
+  <div class="container-page max-w-3xl py-12 sm:py-16">
+    <p class="kicker">Envíos en AMBA</p>
+    <h1 class="page-title mt-3">Calculá tu envío</h1>
+    <p class="mt-4 text-steel">Elegí qué productos querés cotizar e ingresá la dirección de entrega.</p>
+    <ShippingCalculator client:load />
+  </div>
+</BaseLayout>

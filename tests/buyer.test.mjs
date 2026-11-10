@@ -30,7 +30,7 @@ const address = load(new URL('../src/lib/address.ts', import.meta.url));
 const valid = {
   name: 'Matías Quercia',
   email: 'ventas@ferrato.com.ar',
-  phone: '11 3100 8720',
+  phone: '11 2345 6789',
   street: 'Av. Corrientes 1234',
   unit: '4° B',
   locality: 'CABA',
@@ -64,7 +64,7 @@ test('exige teléfono con código de área', () => {
 });
 
 test('acepta teléfono internacional argentino', () => {
-  const result = api.validateBuyer({ ...valid, phone: '+54 9 11 3100-8720' });
+  const result = api.validateBuyer({ ...valid, phone: '+54 9 11 2345-6789' });
   assert.equal(result.ok, true);
 });
 

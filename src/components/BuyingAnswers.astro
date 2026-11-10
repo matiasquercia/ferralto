@@ -1,4 +1,5 @@
 ---
+import { SITE } from '@/lib/site';
 import { whatsappContactUrl } from '@/lib/whatsapp';
 ---
 <section class="container-page py-12" aria-labelledby="buying-answers-title">
@@ -10,7 +11,11 @@ import { whatsappContactUrl } from '@/lib/whatsapp';
       <a class="btn-primary mt-6 inline-flex" href={whatsappContactUrl('¡Hola! Quiero confirmar medidas y envío antes de comprar.')} target="_blank" rel="noopener">Consultá medidas y envío ↗</a>
     </div>
     <div class="divide-y divide-stone-300">
-      <details class="py-5" open><summary class="cursor-pointer font-semibold">¿Dónde hacen envíos y cuánto cuestan?</summary><p class="mt-3 text-steel">Envío a domicilio en toda CABA por $15.000. También $15.000 para direcciones de AMBA hasta 5 km en línea recta de Obispo San Alberto 3796; resto de AMBA, $35.000. Es un solo envío para todo tu pedido y se suma al precio de los productos. Confirmá la tarifa con tu dirección exacta en el carrito. Coordinamos la entrega por WhatsApp. Por ahora no atendemos pedidos fuera de AMBA. <a class="underline" href="/como-comprar#envios">Ver cobertura y condiciones</a>.</p></details>
+      <details class="py-5" open>
+        <summary class="cursor-pointer font-semibold">¿Cómo funcionan los envíos y retiros?</summary>
+        <p class="mt-3 text-steel">Hacemos envíos a domicilio dentro de AMBA. El costo depende de la dirección y de los productos y cantidades del pedido. Ingresá calle y número, localidad y código postal para conocer el importe antes de pagar. Si tu dirección o tu pedido necesitan confirmación, consultanos por WhatsApp.</p>
+        <p class="mt-3 text-steel">{SITE.pickupLabel}. <a class="underline" href="/como-comprar#envios">Ver envíos y retiros</a>.</p>
+      </details>
       <details class="py-5"><summary class="cursor-pointer font-semibold">¿Cómo puedo pagar?</summary><p class="mt-3 text-steel">Podés pagar con Mercado Pago. Las opciones de financiación y sus condiciones se muestran al realizar el pago. <a class="underline" href="/como-comprar#pagos">Ver medios de pago</a>.</p></details>
       <details class="py-5"><summary class="cursor-pointer font-semibold">¿Cómo sé qué modelo elegir?</summary><p class="mt-3 text-steel">Revisá las medidas, materiales y colores de la ficha de cada producto. Si te falta un dato, te asesoramos por WhatsApp antes de comprar.</p></details>
       <details class="py-5"><summary class="cursor-pointer font-semibold">¿Dónde consulto por garantía?</summary><p class="mt-3 text-steel">Encontrá la información en <a class="underline" href="/como-comprar#garantia">cómo comprar y garantía</a>. Para confirmar cobertura, cambios o devoluciones de tu pedido, contactanos antes de comprar.</p></details>
